@@ -1,0 +1,9 @@
+---
+
+- name: Add user
+  hosts: testadduser
+  remote_user: root
+  gather_facts: false
+
+  roles:
+    - adduser
