@@ -1,7 +1,7 @@
 ---
 
-- name: Add user
-  hosts: testadduser
+- name: Copy ssh key
+  hosts: demo
   remote_user: root
   gather_facts: false
 

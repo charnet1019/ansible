@@ -1,2 +1,2 @@
-[testadduser]
-192.168.3.3 ansible_ssh_user="root" ansible_ssh_pass="HAs/kgwfaR8FuvxB7W8S"  MYUSER="tim" MYPWD="WcBVOZgbT55oEJOUMSRQ"
+[demo]
+192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret"  MYUSER="tim" MYPWD="secret"
