@@ -8,5 +8,4 @@
     key: "{{ lookup('file', 'files/ssh/pubkey/id_rsa.pub') }}"
     # key: https://192.168.60.10/ssh/pubkey/id_rsa.pub
     # key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"     # 将当前用户下的公钥复制到远程服务器指定用户下
-    #key_options: 'openeuler'
-    key_options: 'no-port-forwarding,from="192.168.60.10"'
+    key_options: 'no-port-forwarding,from="192.168.60.10"'   # 禁止TCP转发及限制只有指定主机可以连接
