@@ -1,0 +1,16 @@
+---
+# 用户默认值
+
+# 用户存储key的位置
+users_ssh_key_directory: ssh_keys
+
+# 用户默认shell
+users_shell: /bin/bash
+
+# 是否有执行cron权限
+users_cron_allow: yes
+
+# 是否创建用户家目录
+users_create_home: yes
+
+

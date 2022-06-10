@@ -16,6 +16,11 @@
   ansible-galaxy collection list
   ```
 
+# 语法检查  
+  ```
+  ansible-playbook --syntax-check test.yml
+  ```
+
 # 用户提权字段释义  
   - become          是否进行提权操作。如果需要，设置为yes; 必需  
   - become_user     设置为具有所需特权的用户-您想要成为的用户，而不是您登录时使用的用户; 非必需; 默认为root  

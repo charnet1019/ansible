@@ -1,0 +1,35 @@
+---
+
+- name: 添加用户
+  hosts: demo
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: users
+      # 用户组
+      users_group_list:
+        #- name: tim
+        #  state: absent
+        - name: tim
+          gid: 1000
+
+      users_user_list:
+        #- name: tim
+        #  state: absent
+        - name: tim
+          cron_allow: yes
+          comment: administrator user
+          # The `group` and `groups` listed here should exist.
+          group: tim
+          # groups: users,wheel
+          groups: wheel
+          sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+          authorized_keys:
+            #- "https://192.168.60.10/ssh/pubkey/id_rsa.pub"
+            - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIyxvR9HUHMZMsf4Oy2FZBRzk9xVdnlHrwMJmko7ZekRrLvyMwEDJcwVidDjxtubmIR6eAgBaQztF6M0njqTz4wKZ+kooqJ6o7aoF3ucORpiVhDJs78jfjrHn3bx7XhJH9wORc4yi1tJbRo5Oo3R2EJencUunm567263pM/Gg8O05caScQa5vrfX4UBu5OPkdLnZ7eFIQkRQAFerC5uqNcKu9zw0lREscjY8Keht8nqYjV8olZUMTBV8fYcfvMNdfZdbBq6tS9s6zSisRO8q4uaPQ2uGPGxJskU/4pGnDZYa7B0XIguMOUoEu/B+0GOFd2u3ohr+T5Dq71cIVtwWNZ root@openeuler"
+          # EPOCH timestamp when an account should expire.
+          # Typically a positive value like: `1641971487`.
+          # The value `-1` removes the expiry time.
+          expires: -1
+          uid: 1000

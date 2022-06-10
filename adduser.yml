@@ -1,8 +1,0 @@
----
-
-- name: 添加用户
-  hosts: demo
-  gather_facts: false
-
-  roles:
-    - adduser
