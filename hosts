@@ -1,2 +1,7 @@
 [demo]
-192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret"  MYUSER="tim" MYPWD="secret"
+192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret"  username="tim" password="secret"
+
+# ansible_ssh_user  连接远程服务器的用户名
+# ansible_ssh_pass  连接远程服务器的密码
+# username  新添加的用户名,复制证书时会到此用户目录下
+# password  新添加的用户的密码

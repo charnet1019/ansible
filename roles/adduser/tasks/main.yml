@@ -1,25 +1,24 @@
 ---
-# tasks file for adduser
 
-- name: Add group "{{ MYUSER }}"
+- name: 添加组{{ username }}
   group:
-    name: "{{ MYUSER }}"
+    name: "{{ username }}"
     state: present
     system: yes
 
-- name: add the user deploy and set a primary group of 'deploy'
+- name: 添加用户{{ username }}并设置组为{{ username }}
   user:
-    name: "{{ MYUSER }}"
-    group: "{{ MYUSER }}"
+    name: "{{ username }}"
+    group: "{{ username }}"
     create_home: True
     system: True
     comment: devops
     shell: /bin/bash
-    password: "{{ MYPWD | password_hash('sha512') }}"
+    password: "{{ password | password_hash('sha512') }}"
 
 
 #- name: Set authorized key
 #  authorized_key:
-#    user: "{{ MYUSER }}"
+#    user: "{{ username }}"
 #    state: present
 #    key: "{{ lookup('file', '/home/ansible/files/pubkey/id_rsa.pub') }}"

@@ -1,8 +1,7 @@
 ---
 
-- name: Add user
+- name: 添加用户
   hosts: demo
-  remote_user: root
   gather_facts: false
 
   roles:

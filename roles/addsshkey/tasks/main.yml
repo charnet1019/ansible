@@ -1,5 +1,12 @@
-- name: Set authorized key
+---
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/posix/authorized_key_module.html
+- name: 复制公钥
   authorized_key:
-    user: "{{ MYUSER }}"
+    user: "{{ username }}"
     state: present
-    key: "{{ lookup('file', '/home/ansible/files/pubkey/id_rsa.pub') }}"
+    key: "{{ lookup('file', 'files/ssh/pubkey/id_rsa.pub') }}"
+    # key: https://192.168.60.10/ssh/pubkey/id_rsa.pub
+    # key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"     # 将当前用户下的公钥复制到远程服务器指定用户下
+    #key_options: 'openeuler'
+    key_options: 'no-port-forwarding,from="192.168.60.10"'

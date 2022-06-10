@@ -1,8 +1,7 @@
 ---
 
-- name: Copy ssh key
+- name: 复制公钥设置SSH免密
   hosts: demo
-  remote_user: root
   gather_facts: false
 
   roles:
