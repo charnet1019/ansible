@@ -8,7 +8,7 @@
 
 # 初始化角色  
   ```
-  ansible-galaxy role init <ROLE_NAME>
+  ansible-galaxy role init --offline <ROLE_NAME>
   ```
 
 # 查看已安装的collection
@@ -21,6 +21,8 @@
   - become_user     设置为具有所需特权的用户-您想要成为的用户，而不是您登录时使用的用户; 非必需; 默认为root  
   - become_method   权限工具，如sudo，su，pfexec; 非必需; 默认为sudo  
   - become_flags    play或task级别上，允许为任务或角色使用特定的标志。一种常见的用法是，当shell设置为no login时，将用户更改为nobody; 非必需  
+
+  - remote_user     用于在远程主机上执行任务的用户
 
 # 查看远程服务器的元数据信息  
   ```
