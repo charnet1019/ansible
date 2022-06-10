@@ -12,12 +12,16 @@
         #- name: tim
         #  state: absent
         - name: tim
+          # 系统组
+          #system: yes
           gid: 1000
 
       users_user_list:
         #- name: tim
         #  state: absent
         - name: tim
+          # 系统用户
+          #system: yes
           cron_allow: yes
           comment: administrator user
           # The `group` and `groups` listed here should exist.
