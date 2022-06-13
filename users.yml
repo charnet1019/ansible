@@ -15,11 +15,13 @@
           # 系统组
           #system: yes
           gid: 1000
+          state: present
 
       users_user_list:
         #- name: tim
         #  state: absent
         - name: tim
+          state: present
           # 系统用户
           #system: yes
           # 密码有效期
