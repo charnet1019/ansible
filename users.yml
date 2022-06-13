@@ -22,13 +22,23 @@
         - name: tim
           # 系统用户
           #system: yes
-          cron_allow: yes
-          comment: administrator user
+          # 密码有效期
+          #password_validity_days: 15
+          # You can set a password. (Hashed and salted.)
+          password: "$6$pLeyBQQYtMTMMIRI$KsxLqWNwqhRNb2DcyDFkwfqPWX0UbyPolxdk14QKCVzKI0FqL/6kiF4YnKeWKbKRcAIOojF8S51eCkwNl0Vge."
+          #password: "$6$WsfOAUPcGUmhYgBb$MibOtOBsirEnGAxVUirh5doS/UgTJt1KLIkLgKW2371ZcONYe/wuRdoN6f0gQdjKVQdrTcZR0.scsmcd0.InH."
+          # 创建用户时设置密码,如果不开启则可实现定期更新密码功能
+          update_password: on_create
+          # 是否允许执行crontab任务
+          #cron_allow: yes
+          comment: normal user
           # The `group` and `groups` listed here should exist.
           group: tim
           # groups: users,wheel
           groups: wheel
-          sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+          # 无口令sudo
+          #sudo_options: "ALL=(ALL) NOPASSWD: ALL"
+          # 设置ssh免密
           authorized_keys:
             #- "https://192.168.60.10/ssh/pubkey/id_rsa.pub"
             - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIyxvR9HUHMZMsf4Oy2FZBRzk9xVdnlHrwMJmko7ZekRrLvyMwEDJcwVidDjxtubmIR6eAgBaQztF6M0njqTz4wKZ+kooqJ6o7aoF3ucORpiVhDJs78jfjrHn3bx7XhJH9wORc4yi1tJbRo5Oo3R2EJencUunm567263pM/Gg8O05caScQa5vrfX4UBu5OPkdLnZ7eFIQkRQAFerC5uqNcKu9zw0lREscjY8Keht8nqYjV8olZUMTBV8fYcfvMNdfZdbBq6tS9s6zSisRO8q4uaPQ2uGPGxJskU/4pGnDZYa7B0XIguMOUoEu/B+0GOFd2u3ohr+T5Dq71cIVtwWNZ root@openeuler"

@@ -46,4 +46,32 @@
   - no_X11_forwarding       # 使用此密钥时禁止X11转发  
 
 
+# 手工生成用户密码  
+## CentOS 6  
+*md5格式*  
+```
+openssl passwd -1 -salt 'yousalt' 'secret'
+```
+*sha512格式*  
+```
+grub-crypt --sha-512
+```
+
+## CentOS 7  
+*sha512格式*  
+```
+python -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+```
+
+# 查看用户账户过期详细信息  
+```
+[root@localhost home]# chage -l tim
+Last password change					: Jun 13, 2022
+Password expires					: never
+Password inactive					: never
+Account expires						: never
+Minimum number of days between password change		: 0
+Maximum number of days between password change		: 99999
+Number of days of warning before password expires	: 7
+```
 
