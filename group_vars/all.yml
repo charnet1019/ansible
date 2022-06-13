@@ -1,0 +1,4 @@
+# 登录主机用户名和密码
+ansible_ssh_user: 'root'
+ansible_ssh_pass: 'secret'
+ansible_ssh_port: 22
