@@ -39,3 +39,5 @@ docker:
 #    - 100.64.1.31:9999
 
 
+pip:
+  registry: https://pypi.doubanio.com/simple/

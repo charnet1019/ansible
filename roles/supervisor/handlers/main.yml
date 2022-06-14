@@ -1,0 +1,6 @@
+---
+# handlers file for supervisor
+
+- name: restart supervisor
+  service: name=supervisord state=restarted
+  when: supervisor_started

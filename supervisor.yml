@@ -1,0 +1,17 @@
+---
+
+- hosts: demo
+  gather_facts: yes
+
+  vars:
+    pip_package: python-pip
+    supervisor_user: root
+    supervisor_password: secret
+
+  roles:
+    - pip
+    - supervisor
+  tags:
+    - supervisor
+
+
