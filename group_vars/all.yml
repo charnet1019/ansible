@@ -2,3 +2,22 @@
 ansible_ssh_user: 'root'
 ansible_ssh_pass: 'secret'
 ansible_ssh_port: 22
+
+ntp_type: chrony # or ntp
+# 设置同步时间服务器
+ntp_servers:
+  - 'cn.pool.net.org'
+  - 's1b.time.edu.cn'
+
+TimeZone: 'Asia/Shanghai'
+kernel: !!bool false      # true: 升级内核   false: 不升级内核
+
+kubelet:
+  swap: false   # 不希望关闭swap设置成true
+
+ssh:
+  #hardening: !!bool true   # true开启ssh加固   false: 禁止ssh加固
+  Port: 22
+
+console:
+  banner: 'Ops\nAuthorized users only. All activities may be monitored and reported.'

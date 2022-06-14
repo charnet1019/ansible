@@ -1,0 +1,166 @@
+---
+
+- name: 关闭ssh反向解析
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#UseDNS"
+    line: "UseDNS no"
+
+- name: 修改ssh监听端口
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#Port"
+    line: "Port {{ ssh.Port | default(22) }}"
+
+- name: 设置ssh密码验证
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication"
+    line: "PasswordAuthentication {{ ssh.PasswordAuthentication }}"
+
+- name: 修改ssh日志级别
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#LogLevel"
+    line: "LogLevel {{ ssh.LogLevel }}"
+
+- name: 修改ssh连接尝试次数
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#MaxAuthTries"
+    line: "MaxAuthTries {{ ssh.MaxAuthTries }}"
+
+- name: 修改ssh连接空闲断开时间
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#ClientAliveInterval"
+    line: "ClientAliveInterval {{ ssh.ClientAliveInterval }}"
+
+- name: 修改ssh允许超时的次数
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#ClientAliveCountMax"
+    line: "ClientAliveCountMax {{ ssh.ClientAliveCountMax }}"
+
+- name: 修改ssh IgnoreRhosts
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#IgnoreRhosts"
+    line: "IgnoreRhosts {{ ssh.IgnoreRhosts }}"
+
+- name: 修改ssh HostbasedAuthentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#HostbasedAuthentication"
+    line: "HostbasedAuthentication {{ ssh.HostbasedAuthentication }}"
+
+- name: 设置ssh不允许空密码
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PermitEmptyPasswords"
+    line: "PermitEmptyPasswords {{ ssh.PermitEmptyPasswords }}"
+
+- name: 设置是否允许sshd处理用户下的环境变量
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PermitUserEnvironment"
+    line: "PermitUserEnvironment {{ ssh.PermitUserEnvironment }}"
+
+- name: 设置ssh证书验证
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PubkeyAuthentication"
+    line: "PubkeyAuthentication {{ ssh.PubkeyAuthentication }}"
+
+- name: 设置ssh协议版本
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "Protocol {{ ssh.Protocol }}"
+
+# 已废弃配置
+#- name: 设置ssh证书验证2
+#  lineinfile:
+#    dest: /etc/ssh/sshd_config
+#    insertafter: EOF
+#    line: "RSAAuthentication {{ ssh.RSAAuthentication }}"
+#
+#- name: 设置ssh RhostsRSAAuthentication
+#  lineinfile:
+#    dest: /etc/ssh/sshd_config
+#    insertafter: EOF
+#    line: "RhostsRSAAuthentication {{ ssh.RhostsRSAAuthentication }}"
+
+- name: 设置ssh加密算法
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "Ciphers {{ ssh.Ciphers }}"
+
+- name: 设置ssh连接提示信息
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "Banner {{ ssh.Banner }}"
+
+- name: 设置ssh-2数据校验算法
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "MACs {{ ssh.MACs }}"
+
+- name: 设置ssh连接权限检查
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "StrictModes {{ ssh.StrictModes }}"
+
+- name: 设置ssh不允许转发TCP
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "AllowTcpForwarding {{ ssh.AllowTcpForwarding }}"
+
+- name: 设置ssh不允许代理转发
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "AllowAgentForwarding {{ ssh.AllowAgentForwarding }}"
+
+- name: 设置ssh是否允许远程主机连接本地的转发端口
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "GatewayPorts {{ ssh.GatewayPorts }}"
+
+- name: 设置ssh是否允许tun设备转发
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "PermitTunnel {{ ssh.PermitTunnel }}"
+
+- name: 设置ssh KexAlgorithms
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "KexAlgorithms {{ ssh.KexAlgorithms }}"
+
+- name: 设置ssh HostbasedAcceptedKeytypes
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    insertafter: EOF
+    line: "HostbasedAcceptedKeytypes {{ ssh.HostbasedAcceptedKeytypes }}"
+
+#- name: 设置ssh GSSAPIKexAlgorithms
+#  lineinfile:
+#    dest: /etc/ssh/sshd_config
+#    insertafter: EOF
+#    line: "GSSAPIKexAlgorithms {{ ssh.GSSAPIKexAlgorithms }}"
+#
+#- name: 设置ssh CASignatureAlgorithms
+#  lineinfile:
+#    dest: /etc/ssh/sshd_config
+#    insertafter: EOF
+#    line: "CASignatureAlgorithms {{ ssh.CASignatureAlgorithms }}"
+
+

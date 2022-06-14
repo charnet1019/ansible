@@ -1,0 +1,87 @@
+# close the kernel request debugging functionality
+kernel.sysrq=0
+
+# 关闭swap
+vm.swappiness = 0
+kernel.pid_max = 1000000
+
+net.ipv4.ip_local_port_range = 1024 65500
+
+# 开启路由转发
+net.ipv4.ip_forward = 1
+
+# 系统级打开最大文件句柄的数量
+fs.file-max = 2097152
+# 决定进程级最大打开数量
+fs.nr_open = 2097152     
+
+# 加快系统关闭处于FIN_WAIT2状态的TCP连接
+net.ipv4.tcp_syncookies = 1      # 开启SYN的cookies，当出现SYN等待队列溢出时，启用cookies进行处理
+# net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_fin_timeout = 1   # socket 保持在 FIN_WAIT_2 状态的最大时间。
+# 减少TIME_WAIT连接数，避免过多TIME_WAIT连接占用网络资源导致新建连接资源紧张，时延增加。
+net.ipv4.tcp_max_tw_buckets = 5000
+# 允许将TIME-WAIT的socket重新用于新的TCP连接。如果新请求的时间戳，比存储的时间戳更大，则系统将会从TIME_WAIT状态的存活连接中选取一个，重新分配给新的请求连接。
+net.ipv4.tcp_tw_reuse=1   
+net.ipv4.tcp_keepalive_time = 60   # TCP发送keepalive探测消息的间隔时间（秒），用于确认TCP连接是否有效。  默认7200
+
+# 确定TCP栈应该如何反映内存使用，每个值的单位都是内存页（通常是4KB）。
+# 第一个值是内存使用的下限。
+# 第二个值是内存压力模式开始对缓冲区使用应用压力的上限。
+# 第三个值是内存使用的上限。在这个层次上可以将报文丢弃，从而减少对内存的使用。对于较大的BDP可以增大这些值（其单位是内存页而不是字节）。
+# net.ipv4.tcp_mem = 
+
+# 为自动调优定义Socket使用的内存。
+# 第一个值是为Socket接收缓冲区分配的最少字节数。
+# 第二个值是默认值（该值会被rmem_default覆盖），缓冲区在系统负载不重的情况下可以增长到这个值。
+# 第三个值是接收缓冲区空间的最大字节数（该值会被rmem_max覆盖）。
+net.ipv4.tcp_rmem = 1024 4096 16777216
+
+# 为自动调优定义Socket使用的内存。
+# 第一个值是为Socket发送缓冲区分配的最少字节数。
+# 第二个值是默认值（该值会被wmem_default覆盖），缓冲区在系统负载不重的情况下可以增长到这个值。
+# 第三个值是发送缓冲区空间的最大字节数（该值会被wmem_max覆盖）。
+net.ipv4.tcp_wmem = 1024 4096 16777216
+
+net.core.rmem_default = 262144    # 默认的TCP数据接收窗口大小（字节）
+net.core.wmem_default = 262144    # 默认的TCP数据发送窗口大小（字节）
+net.core.rmem_max = 16777216      # 最大的TCP数据接收窗口（字节）
+net.core.wmem_max = 16777216      # 最大的TCP数据发送窗口（字节）
+# net.core.optmem_max = 16777216    # 表示每个套接字所允许的最大缓冲区的大小
+
+# 当内核处理速度比网卡接收速度慢时，这部分多出来的包就会被保存在网卡的接收队列上，而该参数说明了这个队列的数量上限
+net.core.netdev_max_backlog = 262144
+# 该参数定义了系统中每一个端口最大的监听队列的长度
+net.core.somaxconn = 65535
+# 表示SYN队列的长度，加大队列长度可以容纳更多等待连接的网络连接。
+net.ipv4.tcp_max_syn_backlog = 262144
+
+
+# nf_conntrack_buckets、nf_conntrack_max参数相关，后者的默认值是前者的4倍，所以一般建议调大nf_conntrack_max参数值。  
+# ip_conntrack是Linux系统内NAT的一个跟踪连接条目的模块。ip_conntrack模块会使用一个哈希表记录TCP协议“established connection”记录，当这个哈希表满之后，便会导致“nf_conntrack: table full, dropping packet”错误。  
+# net.nf_conntrack_max = 655350
+net.netfilter.nf_conntrack_max = 655350
+net.netfilter.nf_conntrack_tcp_timeout_established = 1200   # 默认值432000
+# net.netfilter.nf_conntrack_tcp_timeout_time_wait = 30     # 默认值120
+
+# 确保不接受ICMP重定向
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.default.accept_redirects = 0
+# 确保禁用IP转发
+#net.ipv4.ip_forward=0
+#net.ipv4.route.flush=1
+# 确保不接受secure ICMP重定向
+net.ipv4.conf.all.secure_redirects = 0
+net.ipv4.conf.default.secure_redirects = 0
+# 确保记录了可疑数据包
+net.ipv4.conf.all.log_martians = 1
+net.ipv4.conf.default.log_martians = 1
+# 确保不接受IPv6路由器通告
+net.ipv6.conf.all.accept_ra = 0
+net.ipv6.conf.default.accept_ra = 0
+# 确保不接受IPv6重定向
+net.ipv6.conf.all.accept_redirects = 0
+net.ipv6.conf.default.accept_redirects = 0
+
+
+
