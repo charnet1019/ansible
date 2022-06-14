@@ -1,0 +1,7 @@
+---
+- hosts: demo
+  gather_facts: yes
+  roles:
+    - docker
+  tags:
+    - docker

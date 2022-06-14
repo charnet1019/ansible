@@ -19,5 +19,23 @@ ssh:
   #hardening: !!bool true   # true开启ssh加固   false: 禁止ssh加固
   Port: 22
 
-console:
-  banner: 'Ops\nAuthorized users only. All activities may be monitored and reported.'
+
+docker:
+  version: '19.03' # choose the version of docker
+#  Environments:
+#    - HTTP_PROXY=http://127.0.0.1:8080
+  dataDir: /var/lib/docker
+  execOpts:
+    - 'native.cgroupdriver=systemd'
+  registryMirrors:
+    - https://fz5yth0r.mirror.aliyuncs.com
+    - https://dockerhub.mirrors.nwafu.edu.cn
+    - https://docker.mirrors.ustc.edu.cn/
+    - https://reg-mirror.qiniu.com
+    - http://hub-mirror.c.163.com/
+    - https://registry.docker-cn.com
+#  insecureRegistries:
+#    - 100.64.2.52:9999
+#    - 100.64.1.31:9999
+
+
