@@ -1,0 +1,19 @@
+---
+
+- hosts: demo
+  gather_facts: yes
+
+  vars:
+    - redis_bind: "{{ ansible_default_ipv4['address'] }}"
+    - redis_port: 6379
+    - redis_password: "mysecret"
+    - redis_dir: "/data/redis/db"
+    - redis_logfile: "/data/redis/logs/redis.log"
+    - redis_syslog_enabled: 'no'
+    - redis_daemonize: 'no'
+    - redis_version: 5.0.14
+
+  roles:
+    - redis
+  tags:
+    - redis
