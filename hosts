@@ -4,3 +4,22 @@
 
 # ansible_ssh_user  连接远程服务器的用户名
 # ansible_ssh_pass  连接远程服务器的密码
+
+
+# 当redis主从服务和哨兵共用两台服务器时，redis_master, redis_slave和redis_sentinel不能同时开启, 因为安装时需要判断redis_sentinel的值
+# 需要先安装redis_master和redis_slave后再安装redis_sentinel
+#[redis_master]
+#192.168.60.9
+#
+#[redis_slave]
+#192.168.60.10 ansible_ssh_user="root" ansible_ssh_pass="Wimj@$1209"
+
+[redis_sentinel]
+192.168.60.9 redis_sentinel=True
+192.168.60.10 redis_sentinel=True ansible_ssh_user="root" ansible_ssh_pass="Wimj@$1209"
+
+
+
+
+
+

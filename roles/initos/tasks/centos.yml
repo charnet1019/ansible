@@ -6,6 +6,7 @@
   with_items:
     - firewalld
     - NetworkManager
+    - postfix
     - dnsmasq
   ignore_errors: True
 
@@ -102,6 +103,7 @@
       - wget
       - psmisc
       - chrony
+      - tar
     state: latest
     update_cache: yes
 

@@ -4,6 +4,7 @@
   gather_facts: yes
 
   vars:
+    - redis_version: 5.0.14
     - redis_bind: "{{ ansible_default_ipv4['address'] }}"
     - redis_port: 6379
     - redis_password: "mysecret"
@@ -11,7 +12,8 @@
     - redis_logfile: "/data/redis/logs/redis.log"
     - redis_syslog_enabled: 'no'
     - redis_daemonize: 'no'
-    - redis_version: 5.0.14
+    - redis_maxmemory: '256mb'
+    - redis_maxmemory_policy: 'volatile-lru'
 
   roles:
     - redis

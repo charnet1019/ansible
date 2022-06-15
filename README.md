@@ -75,3 +75,14 @@ Maximum number of days between password change		: 99999
 Number of days of warning before password expires	: 7
 ```
 
+
+
+
+---
+# 常见问题  
+## Platform linux on host -.-.-.- is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this.  
+```
+/etc/ansible/ansible.cfg
+[defaults]
+interpreter_python = auto_legacy_silent
+```

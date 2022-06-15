@@ -1,0 +1,82 @@
+---
+
+- name: 安装并配置主redis
+  hosts: redis_master
+  gather_facts: yes
+
+  vars:
+    - redis_version: 5.0.14
+    - redis_install_dir: '/opt/redis'
+    - redis_bind: "{{ ansible_default_ipv4['address'] }}"
+    - redis_port: 6379
+    - redis_password: "mysecret"
+    - redis_dir: "/data/redis/db"
+    - redis_logfile: "/data/redis/logs/redis.log"
+    - redis_syslog_enabled: 'no'
+    - redis_daemonize: 'no'
+    - redis_maxmemory: '256mb'
+    - redis_maxmemory_policy: 'volatile-lru'
+
+  roles:
+    - redis
+  tags:
+    - redis-master
+
+
+
+
+- name: 安装并配置从redis
+  hosts: redis_slave
+  gather_facts: yes
+
+  vars:
+    - redis_version: 5.0.14
+    - redis_install_dir: '/opt/redis'
+    - redis_bind: "{{ ansible_default_ipv4['address'] }}"
+    - redis_port: 6379
+    - redis_password: "mysecret"
+    - redis_dir: "/data/redis/db"
+    - redis_logfile: "/data/redis/logs/redis.log"
+    - redis_syslog_enabled: 'no'
+    - redis_daemonize: 'no'
+    - redis_maxmemory: '256mb'
+    - redis_maxmemory_policy: 'volatile-lru'
+
+    - redis_slaveof: 192.168.60.9 6379
+
+  roles:
+    - redis
+  tags:
+    - redis-slave
+
+
+
+
+- name: 安装并配置redis哨兵
+  hosts: redis_sentinel
+  gather_facts: yes
+
+  vars:
+    - redis_version: 5.0.14
+    - redis_install_dir: '/opt/redis_sentinel'
+    - redis_daemonize: 'no'
+    - redis_syslog_enabled: 'no'
+    - redis_sentinel_logfile: '/data/redis/logs/sentinel.log'
+    - redis_sentinel_password: 'mysecret'
+    - redis_sentinel_monitors:
+      - name: mymaster
+        host: 192.168.60.9
+        port: 6379
+        auth_pass: 'mysecret'
+        down_after_milliseconds: 30000
+        parallel_syncs: 1
+        failover_timeout: 180000
+        notification_script: false
+        client_reconfig_script: false
+  roles:
+    - redis
+
+
+
+
+
