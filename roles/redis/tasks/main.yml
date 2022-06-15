@@ -16,6 +16,10 @@
   tags:
     - install
 
+- include_tasks: thp.yml
+  tags:
+    - thp
+
 - include_tasks: server.yml
   when: not redis_sentinel
   tags:

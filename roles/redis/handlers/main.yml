@@ -14,3 +14,9 @@
   when: redis_as_service
 
 
+- name: "restart rc-local"
+  systemd:
+    name: rc-local
+    state: restarted 
+    enabled: yes 
+    daemon_reload: yes

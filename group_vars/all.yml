@@ -41,3 +41,11 @@ docker:
 
 pip:
   registry: https://pypi.doubanio.com/simple/
+
+
+redis:
+  thp_type: 'never'     # 禁用透明大页
+
+
+
+

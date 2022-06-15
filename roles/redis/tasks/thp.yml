@@ -1,0 +1,15 @@
+---
+# 安装redis服务时禁用透明大页
+
+- name: 修改rc.local执行权限
+  file:
+    path: /etc/rc.local
+    mode: '0744'
+
+- name: 禁用thp写入rc.local
+  lineinfile:
+    dest: /etc/rc.local
+    insertafter: EOF
+    line: "echo {{ redis.thp_type }} > /sys/kernel/mm/transparent_hugepage/enabled"
+  notify: "restart rc-local"
+
