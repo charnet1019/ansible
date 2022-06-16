@@ -1,9 +1,9 @@
 {% for HOST in ntp_servers %}
-server {{ HOST }} iburst minpoll 4 maxpoll 10
+server {{ HOST }} minpoll 4 maxpoll 10 iburst 
 {% endfor %}
 
 # Ignor source level
-stratumweight 0
+stratumweight 0.05
 
 # Record the rate at which the system clock gains/losses time.
 driftfile /var/lib/chrony/chrony.drift
@@ -14,7 +14,7 @@ rtcsync
 
 # Allow the system clock to be stepped in the first three updates
 # if its offset is larger than 1 second.
-makestep 1.0 3
+makestep 10 3
 
 
 # Enable hardware timestamping on all interfaces that support it.
@@ -29,8 +29,8 @@ bindcmdaddress 127.0.0.1
 #bindcmdaddress ::1
 
 # Specify file containing keys for NTP authentication.
-keyfile /etc/chrony/chrony.keys
+keyfile /etc/chrony.keys
 
 logdir /var/log/chrony
 # adjust time big than 1 sec will log to file
-logchange 1
+logchange 0.5

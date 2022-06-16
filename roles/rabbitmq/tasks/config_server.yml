@@ -1,0 +1,156 @@
+---
+- name: "Gather facts from master/slave nodes"
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items:
+    "{{
+      (
+        (
+          groups['all']
+            | map('extract',hostvars)
+            | selectattr('rabbitmq_slave_of','defined')
+            | selectattr('rabbitmq_slave_of','equalto',(rabbitmq_slave_of | d(inventory_hostname, true)))
+            | map(attribute='inventory_hostname')
+            | list
+        )
+        +
+        [ rabbitmq_slave_of | ternary(rabbitmq_slave_of,inventory_hostname) ]
+      ) | unique
+    }}"
+  run_once: true
+  when:
+    - hostvars[item]['ansible_hostname'] is not defined
+    - rabbitmq_is_master
+      or (
+        rabbitmq_slave_of != none
+        and rabbitmq_slave_of | d("") | length > 0
+      )
+
+- name: "[RabbitMQ] Define cluster nodes"
+  delegate_to: localhost
+  set_fact:
+    __rabbitmq_cluster_nodes: |
+      {{
+        ( __rabbitmq_cluster_nodes
+          | default([],True)
+        )
+        + [
+            node if '@' in node else ([ node, hostvars[item]['ansible_hostname'] ] | join('@'))
+        ]
+      }}
+  loop:
+    "{{
+      (
+        (
+          groups['all']
+            | map('extract',hostvars)
+            | selectattr('rabbitmq_slave_of','defined')
+            | selectattr('rabbitmq_slave_of','equalto',(rabbitmq_slave_of | d(inventory_hostname, true)))
+            | map(attribute='inventory_hostname')
+            | list
+        )
+        +
+        [ rabbitmq_slave_of | ternary(rabbitmq_slave_of,inventory_hostname) ]
+      ) | unique
+    }}"
+  loop_control:
+    index_var: id
+  vars:
+    node: "{{ hostvars[item]['rabbitmq_node_name'] | d('rabbit',True) }}"
+  when:
+    - rabbitmq_is_master
+      or (
+        rabbitmq_slave_of != none
+        and rabbitmq_slave_of | d("") | length > 0
+      )
+
+- name: "[RabbitMQ] Copy custom server config (sysctl format)"
+  template:
+    src: "{{ rabbitmq_sysctl_tpl }}"
+    dest: "/etc/rabbitmq/rabbitmq.conf"
+    force: true
+    mode: 0644
+    owner: root
+  notify:
+    - restart rabbitmq
+  when:
+    - rabbitmq_sysctl_config | length > 0
+    - rabbitmq_series is version('3.7', '>=')
+
+- name: "[RabbitMQ] Remove custom systctl config file if rabbitmq_sysctl_config is empty"
+  file:
+    path: "/etc/rabbitmq/rabbitmq.conf"
+    state: absent
+  notify:
+    - restart rabbitmq
+  when:
+    - rabbitmq_sysctl_config | length == 0
+    - rabbitmq_series is version('3.7', '>=')
+    - __rabbitmq_cluster_nodes | d("", True) | length == 0
+
+- name: "[RabbitMQ] Copy custom server config (erlang format)"
+  template:
+    src: "{{ rabbitmq_erlang_tpl }}"
+    dest: "/etc/rabbitmq/{{ rabbitmq_series is version('3.7', '>=') | ternary('advanced.config','rabbitmq.config') }}"
+    force: true
+    mode: 0644
+    owner: root
+  notify:
+    - restart rabbitmq
+  when:
+    - (rabbitmq_erlang_config | d("") | trim | length > 0 and rabbitmq_erlang_config != None)
+      or __rabbitmq_cluster_nodes | d("") | trim | length != 0
+
+- name: "[RabbitMQ] Remove custom erlang config file if rabbitmq_erlang_config is empty"
+  file:
+    path: "/etc/rabbitmq/{{ rabbitmq_series is version('3.7', '>=') | ternary('advanced.config','rabbitmq.config') }}"
+    state: absent
+  notify:
+    - restart rabbitmq
+  when:
+    - rabbitmq_erlang_config | d("") | trim | length == 0
+      or rabbitmq_erlang_config == None
+    - __rabbitmq_cluster_nodes | d("") | trim | length == 0
+
+- name: "[RabbitMQ] Copy custom server config for ssl internode communication (erlang format)"
+  copy:
+    content: "{{ rabbitmq_internode_ssl_config }}"
+    dest: "/etc/rabbitmq/inter_node_tls.config"
+    force: true
+    mode: 0644
+    owner: root
+  notify:
+    - restart rabbitmq
+  when:
+    - (rabbitmq_internode_ssl_config | d("") | trim | length > 0 and rabbitmq_internode_ssl_config != None)
+      and __rabbitmq_cluster_nodes | d("") | trim | length != 0
+
+- name: Retrieve erl_ssl_path
+  command: erl -noinput -eval 'io:format("ERL_SSL_PATH=~s~n", [filename:dirname(code:which(inet_tls_dist))])' -s init stop
+  register: _erl_ssl_path
+  changed_when: false
+  when:
+    - (rabbitmq_internode_ssl_config | d("") | trim | length > 0 and rabbitmq_internode_ssl_config != None)
+      and __rabbitmq_cluster_nodes | d("") | trim | length != 0
+
+- name: Write rabbitmq env conf
+  template:
+    src: "{{ rabbitmq_env_tpl }}"
+    dest: "/etc/rabbitmq/rabbitmq-env.conf"
+    force: true
+    mode: 0644
+    owner: root
+  when:
+    - _erl_ssl_path is not skipped
+      or (rabbitmq_env_config | length > 0)
+  notify:
+    - restart rabbitmq
+
+- name: Change users/groups
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.groups }}"
+    append: "{{ item.append | d(omit,true) }}"
+  with_items:
+    - "{{ rabbitmq_users_groups }}"

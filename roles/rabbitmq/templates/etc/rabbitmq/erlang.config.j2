@@ -1,0 +1,21 @@
+#jinja2: trim_blocks: "true", lstrip_blocks: "false"
+[
+{% if rabbitmq_erlang_config != None and rabbitmq_erlang_config | d("") | length > 0 %}
+{% for line in rabbitmq_erlang_config.split('\n') %}
+  {{ line }}
+{% endfor %}
+{% endif %}
+{% if rabbitmq_series is version('3.7', '<') %}
+{% if __rabbitmq_cluster_nodes | d("") | length > 0 and rabbitmq_peer_discovery_classic %}
+  {% if rabbitmq_erlang_config != None and rabbitmq_erlang_config | d("") | length > 0 %}
+  ,
+  {% endif %}
+  {rabbit, [
+  {cluster_nodes, { {{ __rabbitmq_cluster_nodes }}, {{ rabbitmq_cluster_node_type }} } }
+  ]}
+{% endif %}
+{% endif %}
+].
+
+
+

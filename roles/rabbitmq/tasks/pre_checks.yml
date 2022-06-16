@@ -1,0 +1,128 @@
+---
+
+- name: "[RabbitMQ] Test that variables are defined"
+  assert:
+    that:
+      - "{{ item }} is defined"
+  with_items:
+    - rabbitmq_series
+    - rabbitmq_series_rpm_version
+    - rabbitmq_series_deb_version
+    - rabbitmq_rpm_repo_url
+    - rabbitmq_rpm_gpg_url
+    - rabbitmq_rpm_repo_tpl
+    - rabbitmq_deb_repo_url
+    - rabbitmq_deb_gpg_url
+    - rabbitmq_deb_repo_tpl
+    - rabbitmq_deb_pinning_tpl
+    - rabbitmq_vars_files
+    - rabbitmq_sysctl_tpl
+    - rabbitmq_sysctl_config
+    - rabbitmq_erlang_tpl
+    - rabbitmq_erlang_config
+    - rabbitmq_systemd_override_tpl
+    - rabbitmq_systemd_override
+    - rabbitmq_custom_logrotate_tpl
+    - rabbitmq_custom_logrotate
+    - rabbitmq_is_master
+    - rabbitmq_slave_of
+    - rabbitmq_peer_discovery_classic
+    - rabbitmq_cluster_node_type
+    - rabbitmq_plugins_to_enable
+    - rabbitmq_plugins_to_disable
+    - rabbitmq_users_to_create
+    - rabbitmq_users_to_delete
+    - rabbitmq_global_parameters_to_create
+    - rabbitmq_global_parameters_to_delete
+    - rabbitmq_management_user
+    - rabbitmq_management_password
+    - rabbitmq_management_host
+    - rabbitmq_management_port
+    - rabbitmq_vhosts_to_create
+    - rabbitmq_vhosts_to_delete
+    - rabbitmq_queues_to_create
+    - rabbitmq_queues_to_delete
+    - rabbitmq_bindings_to_create
+    - rabbitmq_bindings_to_delete
+    - rabbitmq_exchanges_to_create
+    - rabbitmq_exchanges_to_delete
+    - rabbitmq_policies_to_create
+    - rabbitmq_policies_to_delete
+    - rabbitmq_hide_log
+    - rabbitmq_env_tpl
+    - rabbitmq_env_config
+    - rabbitmq_management_protocol
+    - rabbitmq_internode_ssl_config
+    - rabbitmq_users_groups
+    - rabbitmq_management_ca_cert
+    - rabbitmq_management_client_cert
+    - rabbitmq_management_client_key
+    - rabbitmq_parameters_to_create
+    - rabbitmq_parameters_to_delete
+
+- name: "[RabbitMQ] Test that variables are not empty"
+  assert:
+    that:
+      - "{{ item }} != None"
+      - "{{ item }} | trim | length > 0"
+  with_items:
+    - rabbitmq_series
+    - rabbitmq_rpm_repo_url
+    - rabbitmq_rpm_repo_tpl
+    - rabbitmq_deb_repo_url
+    - rabbitmq_deb_repo_tpl
+    - rabbitmq_deb_pinning_tpl
+    - rabbitmq_sysctl_tpl
+    - rabbitmq_erlang_tpl
+    - rabbitmq_systemd_override_tpl
+    - rabbitmq_custom_logrotate_tpl
+    - rabbitmq_peer_discovery_classic
+    - rabbitmq_cluster_node_type
+    - rabbitmq_hide_log
+
+- name: "[RabbitMQ] Test that there is as least one vhost to create if there is some to delete"
+  assert:
+    that:
+      - rabbitmq_vhosts_to_create | length > 0
+  when:
+    - rabbitmq_vhosts_to_delete | length > 0
+
+- name: "[RabbitMQ] Test that the vhosts to delete are not part of those to create"
+  assert:
+    that:
+      - rabbitmq_vhosts_to_create | intersect(rabbitmq_vhosts_to_delete) | list | length == 0
+  when:
+    - rabbitmq_vhosts_to_delete | length > 0
+
+- name: "[RabbitMQ] Test that there is as least one user to create if there is some to delete"
+  assert:
+    that:
+      - rabbitmq_users_to_create | length > 0
+  when:
+    - rabbitmq_users_to_delete | length > 0
+
+- name: "[RabbitMQ] Test that the users to delete are not part of those to create"
+  assert:
+    that:
+      - (rabbitmq_users_to_create | map(attribute='user') | list)
+        | intersect(rabbitmq_users_to_delete) | list | length == 0
+  when:
+    - rabbitmq_users_to_delete | length > 0
+
+- name: "[RabbitMQ] Test that management credentials are defined if asked to delete 'guest' user"
+  assert:
+    that:
+      - "{{ item }} is defined"
+      - "{{ item }} != None"
+      - "{{ item }} | length > 0"
+  with_items:
+    - rabbitmq_management_user
+    - rabbitmq_management_password
+  when:
+    - (rabbitmq_bindings_to_delete | length > 0)
+      or (rabbitmq_bindings_to_create | length > 0)
+      or (rabbitmq_exchanges_to_delete | length > 0)
+      or (rabbitmq_exchanges_to_create | length > 0)
+      or (rabbitmq_queues_to_delete | length > 0)
+      or (rabbitmq_queues_to_create | length > 0)
+    - rabbitmq_users_to_delete | select('match', '^guest$') | list | length > 0

@@ -60,23 +60,6 @@
 
 - include_tasks: ssh.yml
 
-#- name: 关闭ssh反向解析
-#  lineinfile:
-#    dest: /etc/ssh/sshd_config
-#    regexp: "^#UseDNS"
-#    line: "UseDNS no"
-#
-#- name: 修改ssh监听端口
-#  lineinfile:
-#    dest: /etc/ssh/sshd_config
-#    regexp: "^#Port"
-#    line: "Port {{ ssh.port | default(22) }}"
-#
-#- name: 修改ssh日志级别
-#  lineinfile:
-#    dest: /etc/ssh/sshd_config
-#    regexp: "^#LogLevel"
-#    line: "Port {{ ssh.loglevel }}"
 
 #- name: prepare some dirs
 #  file: name={{ item }} state=directory

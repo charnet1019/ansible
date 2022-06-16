@@ -6,18 +6,38 @@ ansible_ssh_port: 22
 ntp_type: chrony # or ntp
 # 设置同步时间服务器
 ntp_servers:
-  - 'cn.pool.net.org'
-  - 's1b.time.edu.cn'
+  - 'ntp.cloud.aliyuncs.com'
+  - 'ntp.aliyun.com'
+  - 'ntp1.aliyun.com'
+  - 'ntp1.cloud.aliyuncs.com'
+  - 'ntp2.aliyun.com'
+  - 'ntp2.cloud.aliyuncs.com'
+  - 'ntp3.aliyun.com'
+  - 'ntp3.cloud.aliyuncs.com'
+  - 'ntp4.aliyun.com'
+  - 'ntp4.cloud.aliyuncs.com'
+  - 'ntp5.aliyun.com'
+  - 'ntp5.cloud.aliyuncs.com'
+  - 'ntp6.aliyun.com'
+  - 'ntp6.cloud.aliyuncs.com'
+  - 'ntp7.cloud.aliyuncs.com'
+  - 'ntp8.cloud.aliyuncs.com'
+  - 'ntp9.cloud.aliyuncs.com'
+  - 'ntpupdate.tencentyun.com'
 
 TimeZone: 'Asia/Shanghai'
-kernel: !!bool false      # true: 升级内核   false: 不升级内核
+kernel: !!bool false               # true: 升级内核   false: 不升级内核
 
 kubelet:
-  swap: false   # 不希望关闭swap设置成true
+  swap: false                      # true: 不关闭swap  false: 关闭swap
 
 ssh:
-  #hardening: !!bool true   # true开启ssh加固   false: 禁止ssh加固
+  hardening: !!bool true           # true: 开启ssh加固   false: 禁止ssh加固
   Port: 22
+  ClientAliveInterval: 600         # 10分钟无操作断开连接
+  MaxAuthTries: 3
+  PasswordAuthentication: 'yes'
+  PubkeyAuthentication: 'yes'
 
 
 docker:
@@ -44,7 +64,7 @@ pip:
 
 
 redis:
-  thp_type: 'never'     # 禁用透明大页
+  thp_type: 'never'     # 禁用透明大页  always madvise never
 
 
 

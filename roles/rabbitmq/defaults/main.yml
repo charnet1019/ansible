@@ -1,0 +1,132 @@
+---
+###########
+# Install #
+###########
+rabbitmq_series: 3.8
+rabbitmq_series_rpm_version:
+rabbitmq_series_deb_version:
+
+rabbitmq_rpm_repo_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el
+rabbitmq_rpm_gpg_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+rabbitmq_rpm_repo_tpl: etc/yum.repos.d/rabbitmq.repo.j2
+rabbitmq_rpm_disable_repo:
+rabbitmq_rpm_enable_repo:
+
+rabbitmq_deb_repo_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb
+rabbitmq_deb_gpg_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+rabbitmq_deb_repo_tpl: etc/apt/sources.list.d/rabbitmq.list.j2
+rabbitmq_deb_pinning_tpl: etc/apt/preferences.d/rabbitmq.j2
+
+#################
+# Custom Config #
+#################
+rabbitmq_vars_files: []
+
+rabbitmq_sysctl_tpl: etc/rabbitmq/sysctl.conf.j2
+rabbitmq_sysctl_config: {}
+
+rabbitmq_erlang_tpl: etc/rabbitmq/erlang.config.j2
+rabbitmq_erlang_config:
+
+rabbitmq_env_tpl: etc/rabbitmq/rabbitmq-env.conf.j2
+rabbitmq_env_config: {}
+
+rabbitmq_node_name:
+
+rabbitmq_systemd_override_tpl: etc/systemd/system/rabbitmq-server.service.d/override.conf.j2
+rabbitmq_systemd_override: {}
+
+rabbitmq_custom_logrotate_tpl: etc/logrotate.d/rabbitmq-server.j2
+rabbitmq_custom_logrotate:
+
+rabbitmq_users_groups: []
+
+###########
+# Cluster #
+###########
+rabbitmq_is_master:
+rabbitmq_slave_of:
+rabbitmq_peer_discovery_classic: true
+rabbitmq_cluster_node_type: disc
+
+rabbitmq_internode_ssl_config:
+
+###########
+# Plugins #
+###########
+rabbitmq_plugins_to_enable: []
+rabbitmq_plugins_to_disable: []
+
+#########
+# Users #
+#########
+rabbitmq_users_to_create: []
+rabbitmq_users_to_delete: []
+
+#####################
+# Global Parameters #
+#####################
+rabbitmq_global_parameters_to_create: []
+rabbitmq_global_parameters_to_delete: []
+
+############
+# Api user #
+############
+rabbitmq_management_user:
+rabbitmq_management_password:
+rabbitmq_management_host:
+rabbitmq_management_port:
+rabbitmq_management_protocol:
+rabbitmq_management_ca_cert:
+rabbitmq_management_client_cert:
+rabbitmq_management_client_key:
+
+##########
+# Vhosts #
+##########
+rabbitmq_vhosts_to_create: []
+rabbitmq_vhosts_to_delete: []
+
+##########
+# Queues #
+##########
+rabbitmq_queues_to_create: []
+rabbitmq_queues_to_delete: []
+
+############
+# Exchange #
+############
+rabbitmq_exchanges_to_create: []
+rabbitmq_exchanges_to_delete: []
+
+############
+# Bindings #
+############
+rabbitmq_bindings_to_create: []
+rabbitmq_bindings_to_delete: []
+
+############
+# Policies #
+############
+rabbitmq_policies_to_create: []
+rabbitmq_policies_to_delete: []
+
+
+##############
+# Parameters #
+##############
+rabbitmq_parameters_to_create: []
+rabbitmq_parameters_to_delete: []
+
+#########
+# Debug #
+#########
+rabbitmq_hide_log: true
+
+
+
+
+
+
+
+

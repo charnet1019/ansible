@@ -1,0 +1,4 @@
+Package: rabbitmq*
+Pin: version {{ rabbitmq_series_deb_version | ternary( (rabbitmq_series_deb_version| string), (rabbitmq_series | string) + '*') }}
+Pin-Priority: 1000
+

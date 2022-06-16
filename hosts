@@ -1,6 +1,6 @@
 [demo]
-#192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret"
-192.168.60.9
+#192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret" ansible_ssh_port=5022
+192.168.60.9 hostname="test-server"
 
 # ansible_ssh_user  连接远程服务器的用户名
 # ansible_ssh_pass  连接远程服务器的密码
