@@ -47,7 +47,7 @@ rabbitmq_users_groups: []
 rabbitmq_is_master:
 rabbitmq_slave_of:
 rabbitmq_peer_discovery_classic: true
-rabbitmq_cluster_node_type: disc
+rabbitmq_cluster_node_type: disc     # 节点类型disc  ram
 
 rabbitmq_internode_ssl_config:
 
@@ -123,6 +123,11 @@ rabbitmq_parameters_to_delete: []
 #########
 rabbitmq_hide_log: true
 
+##################
+# 数据和日志目录 #
+##################
+RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
+RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
 
 
 

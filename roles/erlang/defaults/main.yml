@@ -1,0 +1,23 @@
+---
+# defaults file for erlang
+
+erlang_series: 23
+
+# RedHat
+erlang_rpm_repo_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el
+#erlang_rpm_repo_url: https://mirrors.tuna.tsinghua.edu.cn/erlang-solutions/centos
+erlang_rpm_gpg_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+#erlang_rpm_gpg_url: https://packages.erlang-solutions.com/rpm/erlang_solutions.asc
+erlang_rpm_repo_tpl: etc/yum.repos.d/rabbitmq_erlang.repo.j2
+# 安装指定版本的erlang
+erlang_series_rpm_version:
+
+
+# Debian
+erlang_deb_repo_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb
+erlang_deb_gpg_url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+erlang_deb_repo_tpl: etc/apt/sources.list.d/rabbitmq_erlang.list.j2
+erlang_deb_pinning_tpl: etc/apt/preferences.d/erlang.j2
+erlang_series_deb_version:
+
+

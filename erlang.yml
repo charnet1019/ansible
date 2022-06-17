@@ -1,0 +1,11 @@
+---
+
+- hosts: demo
+  gather_facts: yes
+
+  roles:
+    - { role: erlang, erlang_series: 23 }
+  tags:
+    - erlang
+
+
