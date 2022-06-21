@@ -1,0 +1,24 @@
+---
+
+- hosts: demo
+  gather_facts: yes
+
+  roles:
+    #- role: openjdk
+    #  openjdk_app: jre
+    #  openjdk_ver:
+    #    major: 8
+    #    minor: 242
+    #    b: '08'
+
+    - role: openjdk
+      openjdk_app: jdk
+      openjdk_ver:
+        major: 11
+        minor: 0
+        patch: 8
+        b: 10
+  tags:
+    - openjdk
+
+

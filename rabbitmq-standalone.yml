@@ -11,8 +11,11 @@
 
     - role: rabbitmq
       vars:
-        rabbitmq_series: 3.8
-        rabbitmq_series_rpm_version: 3.8.30
+        #rabbitmq_series: 3.8
+        rabbitmq_series: 3.9
+        #rabbitmq_series_rpm_version: 3.8.30
+        #rabbitmq_series_rpm_version: 3.9.10
+        rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
         rabbitmq_erlang_config: |
           {rabbit, [

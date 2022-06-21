@@ -1,4 +1,10 @@
 ---
+- name: 兼容openEuler 2203
+  set_fact:
+    ansible_distribution_major_version: 7
+  when:
+    - ansible_distribution == "openEuler"
+
 - name: Add Erlang/OTP repository file [RHEL/CentOS]
   template:
     src: "{{ erlang_rpm_repo_tpl }}"

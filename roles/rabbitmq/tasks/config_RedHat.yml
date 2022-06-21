@@ -13,3 +13,29 @@
     state: present
     disablerepo: "{{ rabbitmq_rpm_disable_repo | d(omit, true) }}"
     enablerepo: "{{ rabbitmq_rpm_enable_repo | d(omit, true) }}"
+
+#- name: 创建目录
+#  file:
+#    path: "{{ item }}"
+#    state: directory
+#    owner: rabbitmq
+#    group: rabbitmq
+#  with_items:
+#    - "{{ RABBITMQ_MNESIA_BASE }}"
+#    - "{{ RABBITMQ_LOG_BASE }}"
+#  when:
+#    - RABBITMQ_MNESIA_BASE is defined or RABBITMQ_LOG_BASE is defined
+
+
+- name: 创建目录
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: rabbitmq
+    group: rabbitmq
+  loop:
+    - "{{ RABBITMQ_MNESIA_BASE }}"
+    - "{{ RABBITMQ_LOG_BASE }}"
+  when:
+    - RABBITMQ_MNESIA_BASE is defined or RABBITMQ_LOG_BASE is defined
+

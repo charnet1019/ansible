@@ -129,17 +129,17 @@
 
 
 
-- name: 创建目录
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: rabbitmq
-    group: rabbitmq
-  with_items:
-    - "{{ RABBITMQ_MNESIA_BASE }}"
-    - "{{ RABBITMQ_LOG_BASE }}"
-  when:
-    - RABBITMQ_MNESIA_BASE is defined or RABBITMQ_LOG_BASE is defined
+#- name: 创建目录
+#  file:
+#    path: "{{ item }}"
+#    state: directory
+#    owner: rabbitmq
+#    group: rabbitmq
+#  with_items:
+#    - "{{ RABBITMQ_MNESIA_BASE }}"
+#    - "{{ RABBITMQ_LOG_BASE }}"
+#  when:
+#    - RABBITMQ_MNESIA_BASE is defined or RABBITMQ_LOG_BASE is defined
 
 
 

@@ -1,0 +1,17 @@
+---
+
+- hosts: zookeeper-nodes
+  gather_facts: yes
+
+  vars:
+    - zookeeper_version: 3.7.1
+    - zookeeper_data_dir: /data/zookeeper/data
+    - zookeeper_data_log_dir: /data/zookeeper/logs
+
+  roles:
+    - zookeeper
+  tags:
+    - zookeeper
+
+
+
