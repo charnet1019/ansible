@@ -36,9 +36,9 @@ zoo2 ansible_host=192.168.60.9
 zoo3 ansible_host=192.168.60.11
 
 [zookeeper-nodes]
-#zoo1 zookeeper_id=1
+zoo1 zookeeper_id=1
 zoo2 zookeeper_id=2
-#zoo3 zookeeper_id=3
+zoo3 zookeeper_id=3
 
 
 

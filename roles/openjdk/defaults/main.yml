@@ -1,6 +1,10 @@
 ---
 # defaults file for openjdk
-openjdk_mirror: https://github.com/AdoptOpenJDK
+# https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.8%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.8_10.tar.gz
+#openjdk_mirror: https://github.com/AdoptOpenJDK
+
+# http://192.168.60.10:58848/openjdk11-binaries/releases/download/OpenJDK11U-jdk_x64_linux_hotspot_11.0.8_10.tar.gz
+openjdk_mirror: http://192.168.60.10:58848
 
 openjdk_os: linux
 openjdk_arch: x64

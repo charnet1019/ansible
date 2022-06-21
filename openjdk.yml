@@ -1,6 +1,6 @@
 ---
 
-- hosts: demo
+- hosts: rabbitmq_slave
   gather_facts: yes
 
   roles:
