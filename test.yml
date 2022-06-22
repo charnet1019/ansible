@@ -1,0 +1,14 @@
+---
+
+- name: verify
+  hosts: demo
+  gather_facts: no
+
+  vars:
+    - redis_slaveof: "{{ groups['demo'][0] }} 6379"
+  tasks:
+    - name: test
+      debug:
+        msg:
+        - "{{ redis_slaveof }}"
+

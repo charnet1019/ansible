@@ -42,7 +42,8 @@
     - redis_maxmemory: '256mb'
     - redis_maxmemory_policy: 'volatile-lru'
 
-    - redis_slaveof: 192.168.60.9 6379
+    - redis_slaveof: "{{ groups['redis_master'][0] }} 6379"
+    #- redis_slaveof: 192.168.60.9 6379
 
   roles:
     - redis

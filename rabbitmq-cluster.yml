@@ -13,11 +13,11 @@
       vars:
         # 设置为主节点
         rabbitmq_is_master: true
-        #rabbitmq_series: 3.8
-        rabbitmq_series: 3.9
-        #rabbitmq_series_rpm_version: 3.8.30
+        rabbitmq_series: 3.8
+        #rabbitmq_series: 3.9
+        rabbitmq_series_rpm_version: 3.8.30
         #rabbitmq_series_rpm_version: 3.9.10
-        rabbitmq_series_rpm_version: 3.9.16
+        #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
         rabbitmq_erlang_config: |
           {rabbit, [
@@ -62,13 +62,13 @@
     - role: rabbitmq
       vars:
         # 设置为从节点
-        rabbitmq_slave_of: rabbitmq-master
-        #rabbitmq_slave_of: mysql
-        #rabbitmq_series: 3.8
-        rabbitmq_series: 3.9
-        #rabbitmq_series_rpm_version: 3.8.30
+        #rabbitmq_slave_of: rabbitmq-master
+        rabbitmq_slave_of: mysql
+        rabbitmq_series: 3.8
+        #rabbitmq_series: 3.9
+        rabbitmq_series_rpm_version: 3.8.30
         #rabbitmq_series_rpm_version: 3.9.10
-        rabbitmq_series_rpm_version: 3.9.16
+        #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
         rabbitmq_erlang_config: |
           {rabbit, [

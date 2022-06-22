@@ -9,8 +9,6 @@ rabbitmq-master ansible_host=192.168.60.9
 mysql ansible_host=192.168.60.8
 #192.168.60.11 hostname="demo6011"
 
-#[rabbitmq_slave:vars]
-#rabbitmq_master="192.168.60.9"
 
 
 # ansible_ssh_user  连接远程服务器的用户名

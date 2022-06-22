@@ -27,6 +27,7 @@
         and rabbitmq_slave_of | d("") | length > 0
       )
 
+
 - name: "[RabbitMQ] Define cluster nodes"
   delegate_to: localhost
   set_fact:
@@ -64,6 +65,7 @@
         rabbitmq_slave_of != none
         and rabbitmq_slave_of | d("") | length > 0
       )
+
 
 - name: "[RabbitMQ] Copy custom server config (sysctl format)"
   template:
