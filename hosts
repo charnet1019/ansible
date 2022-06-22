@@ -3,10 +3,10 @@
 192.168.60.9 hostname="test-server"
 
 [rabbitmq_master]
-192.168.60.9
+rabbitmq-master ansible_host=192.168.60.9
 
 [rabbitmq_slave]
-192.168.60.8
+mysql ansible_host=192.168.60.8
 #192.168.60.11 hostname="demo6011"
 
 #[rabbitmq_slave:vars]
@@ -31,6 +31,14 @@
 
 
 
+# zookeeper单机主机清单
+#zoo1 ansible_host=192.168.60.8
+#
+#[zookeeper-nodes]
+#zoo1 zookeeper_id=1
+
+
+# zookeeper集群主机清单
 zoo1 ansible_host=192.168.60.8
 zoo2 ansible_host=192.168.60.9
 zoo3 ansible_host=192.168.60.11

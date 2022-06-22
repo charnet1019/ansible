@@ -62,7 +62,8 @@
     - role: rabbitmq
       vars:
         # 设置为从节点
-        rabbitmq_slave_of: rabbitmq_master
+        rabbitmq_slave_of: rabbitmq-master
+        #rabbitmq_slave_of: mysql
         #rabbitmq_series: 3.8
         rabbitmq_series: 3.9
         #rabbitmq_series_rpm_version: 3.8.30
@@ -101,6 +102,5 @@
 
 
 
-      #host_vars:
-      #  ansible-role-rabbitmq-ubuntu-bionic:
-      #    rabbitmq_is_master: true
+
+
