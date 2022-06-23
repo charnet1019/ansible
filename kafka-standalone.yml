@@ -1,0 +1,28 @@
+---
+
+- hosts: kafka_nodes
+  gather_facts: yes
+
+  vars:
+    - kafka_version: 3.1.0
+    - kafka_scala_version: 2.13
+    - kafka_java_heap: "-Xms1G -Xmx1G"
+    - kafka_zookeeper_connect: "{{ groups['kafka_nodes'][0] }}:{{ kafka_zookeeper_client_port }}"
+    - kafka_environment:
+        JMX_PORT: 9999
+
+  roles:
+    - role: openjdk
+      openjdk_app: jdk
+      openjdk_ver:
+        major: 11
+        minor: 0
+        patch: 8
+        b: 10
+    - zookeeper
+    - kafka
+  tags:
+    - kafka
+
+
+

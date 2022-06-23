@@ -166,13 +166,24 @@
   tags:
     - zookeeper_config
 
-- name: 检查是否已安装JAVA 
+- name: 检查是否已安装java
+  command: command -v java
+  ignore_errors: yes
+  register: java_bin
+
+- name: 检查是否已设置JAVA_HOME
   command: echo $JAVA_HOME
-  changed_when: false
+  #changed_when: false
   ignore_errors: yes
   register: java_home
 
-- name: 设置JAVA HOME
+- fail:
+    msg: "未检测到java环境，请先安装java并设置JAVA_HOME后再重新执行"
+  when:
+    - java_bin.stdout | trim | length < 0
+      or java_home.stdout | trim | length < 0 
+
+- name: 设置zookeeper JAVA_HOME环境变量
   lineinfile:
     path: /etc/default/zookeeper
     insertafter: EOF
@@ -181,6 +192,8 @@
     - Restart ZooKeeper service
   tags:
     - zookeeper_config
+  when:
+    - java_home.stdout | trim | length > 0
 
 
 # Uncomment the log4j.properties line for setting the maximum number of logs to rollover and keep

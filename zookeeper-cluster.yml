@@ -10,6 +10,13 @@
     - zookeeper_environment: "JVMFLAGS":"-Xms512m -Xmx1024m $JVMFLAGS"
 
   roles:
+    - role: openjdk
+      openjdk_app: jdk
+      openjdk_ver:
+        major: 11
+        minor: 0
+        patch: 8
+        b: 10
     - zookeeper
   tags:
     - zookeeper
