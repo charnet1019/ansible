@@ -6,7 +6,7 @@
 Ansible role for installing and configuring Apache ZooKeeper
 
 This role can be used to install and cluster multiple ZooKeeper nodes, this uses
-all hosts defined for the "zookeeper-nodes" group in the inventory file by
+all hosts defined for the "zookeeper_nodes" group in the inventory file by
 default. All servers are added to the zoo.cfg file along with the leader and
 election ports.
 
@@ -48,7 +48,7 @@ See <https://github.com/ansible/ansible/issues/71528> for more information.
 | zookeeper_id            | 1                                                                 |
 | zookeeper_leader_port   | 2888                                                              |
 | zookeeper_election_port | 3888                                                              |
-| zookeeper_servers       | zookeeper-nodes                                                   |
+| zookeeper_servers       | zookeeper_nodes                                                   |
 | zookeeper_environment   | "JVMFLAGS": "-javaagent:/opt/jolokia/jolokia-jvm-1.6.0-agent.jar" |
 
 ### Default Ports
@@ -98,7 +98,7 @@ No dependencies
 ## Example Playbook
 
 ```yaml
-- hosts: zookeeper-nodes
+- hosts: zookeeper_nodes
   roles:
     - sleighzy.zookeeper
 ```

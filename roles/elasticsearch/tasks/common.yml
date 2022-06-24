@@ -1,0 +1,56 @@
+---
+
+# 设置es内核参数
+- name: 设置swappiness
+  sysctl:
+    name: vm.swappiness
+    value: "{{ elasticsearch_vm_swappiness }}"
+    state: present
+
+- name: 添加max map count
+  sysctl:
+    name: vm.max_map_count
+    value: "{{ elasticsearch_vm_max_map_count }}"
+    state: present
+
+# 设置limits
+- name: 配置es soft nofile limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} soft nofile {{ elasticsearch_nofile_limit }}"
+
+- name: 配置es hard nofile limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} hard nofile {{ elasticsearch_nofile_limit }}"
+
+- name: 配置es soft noproc limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} soft nproc {{ elasticsearch_nproc_limit }}"
+
+- name: 配置es hard noproc limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} hard nporc {{ elasticsearch_nproc_limit }}"
+
+- name: 配置es soft memory limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} soft memlock unlimited"
+
+- name: 配置es hard memory limits
+  lineinfile:
+    path: /etc/security/limits.conf
+    insertafter: EOF
+    line: "{{ elasticsearch_users_groups }} hard memlock unlimited"
+
+
+
+
+

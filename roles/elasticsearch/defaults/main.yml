@@ -1,0 +1,128 @@
+---
+# defaults file for elasticsearch
+
+# Elastic offers both "oss" (Apache 2.0 license) and "elastic"
+# (Elastic license). Select the type here. Either "oss" or "elastic"
+elasticsearch_type: oss
+
+elasticsearch_series: 7
+elasticsearch_series_rpm_version: 7.9.3
+elasticsearch_series_deb_version: 7.9.3
+
+# 默认为单机模式
+elasticsearch_standalone: 'yes'
+
+elasticsearch_rpm_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+elasticsearch_rpm_repo_tpl: etc/yum.repos.d/elasticsearch.repo.j2
+elasticsearch_rpm_disable_repo:
+elasticsearch_rpm_enable_repo:
+
+elasticsearch_deb_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+elasticsearch_deb_repo_tpl: etc/apt/sources.list.d/elasticsearch.list.j2
+
+elasticsearch_users_groups: "elasticsearch"
+
+# 集群名称
+elasticsearch_cluster_name: "elasticsearch"
+
+# 节点名称
+#elasticsearch_node_name: "elasticsearch"
+elasticsearch_node_name: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.3/modules-node.html
+# 主节点,负责管理集群，如节点加入移除和增加删除索引,以及决定将哪些分片分配给哪些节点; Master不负责数据的索引和检索，所以负载较轻
+# 协调节点: 每个节点都隐含地是一个协调节点,将请求从客户端路由到集群中的其他节点
+elasticsearch_node_master: 
+
+# 数据节点,负责集群中数据的索引和检索，一般压力比较大
+elasticsearch_node_data: 
+
+# ingest节点可以执行由一个或多个预处理管道
+elasticsearch_node_ingest:
+
+# 协调节点,需要较好的CPU和较高的内存
+# 用途：类似智能负载均衡器，负责：路由分发请求、聚集搜索或聚合结果
+# 向集群添加太多仅协调节点会增加整个集群的负担，因为所选主节点必须等待每个节点确认集群状态更新
+# 数据节点可以提供相同的功能
+elasticsearch_coordinating_node: []
+
+# 数据存储路径
+elasticsearch_path_data: "/data/es/data"
+
+# 日志存储路径
+elasticsearch_path_logs: "/data/es/logs"
+
+# 快照存储路径
+elasticsearch_path_repo: "/data/es/snapshot"
+
+# jvm dump日志
+elasticsearch_path_dump: "/data/es/dump"
+
+# The IP address to bind on.
+elasticsearch_network_host: "0.0.0.0"
+
+# The port to bind on.
+elasticsearch_http_port: 9200
+
+# 集群节点间通信端口
+elasticsearch_transport_tcp_port: 9300
+
+# SSL
+elasticsearch_tls_enable: 'yes'
+elasticsearch_certificate_name: 
+elasticsearch_certificate_authorities_name:
+
+# 禁用跨集群查询
+elasticsearch_search_remote_connect: 'false'
+
+
+# 允许跨域
+elasticsearch_http_cors_enabled: 'true'
+elasticsearch_http_cors_allow_origin: '*'
+
+# Provides a list of the addresses of the master-eligible nodes in the cluster
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-settings.html
+# 添加新节点
+#elasticsearch_discovery_seed_hosts: []
+elasticsearch_discovery_seed_hosts: >-
+  ["{{ groups['es_nodes']
+  | map('extract', hostvars, ['ansible_default_ipv4', 'address'])
+  | join('", "') }}"]
+
+# Sets the initial set of master-eligible nodes in a brand-new cluster.
+# https://www.elastic.co/guide/en/elasticsearch/reference/master/modules-discovery-bootstrap-cluster.html
+# 在一个全新的集群中设置初始的符合主节点的节点集,确保每个节点上设置相同的节点列表
+# 默认情况下，这个列表是空的，意味着这个节点希望加入一个已经被引导的集群。集群形成后删除此设置。重新启动节点或将新节点添加到现有集群时不要使用此设置
+#elasticsearch_cluster_initial_master_nodes: []
+elasticsearch_cluster_initial_master_nodes: >-
+  ["{{ groups['es_master']
+  | map('extract', hostvars, ['ansible_default_ipv4', 'address'])
+  | join('", "') }}"]
+
+
+# 设置最大索引分片限制,默认为1000
+elasticsearch_cluster_max_shards_per_node: 1000
+
+# 设置JVM锁定内存,减少内存和磁盘间的数据交换
+# 需要设置memlock unlimited,否则即使设定了此参数elasticsearch也无法锁定内存
+elasticsearch_bootstrap.memory_lock:
+
+# jvm配置
+elasticsearch_jvm_heap: 
+  XMS: "-Xms1g"
+  XMX: "-Xmx1g"
+
+# 内核配置
+elasticsearch_vm_swappiness: 0
+elasticsearch_vm_max_map_count: 262144
+
+
+# limits相关配置
+elasticsearch_nofile_limit: 100001
+elasticsearch_nproc_limit: 100001
+
+
+# es配置文件路径
+elasticsearch_conf_path: /etc/elasticsearch
+
+

@@ -1,0 +1,18 @@
+---
+
+- hosts: es_nodes es_master es_data
+  gather_facts: yes
+
+  vars:
+    - elasticsearch_network_host: "{{ ansible_default_ipv4['address'] }}"
+    - elasticsearch_http_port: 9200
+    - elasticsearch_jvm_heap:
+        XMS: "-Xms1g"
+        XMX: "-Xmx1g"
+
+  roles:
+    - elasticsearch
+  tags:
+    - elasticsearch
+
+

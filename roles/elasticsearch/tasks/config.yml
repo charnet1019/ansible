@@ -1,0 +1,14 @@
+---
+
+- name: 渲染jvm和es配置文件
+  template:
+    src: "{{ item.name }}"
+    dest: "{{ item.path }}"
+    mode: '0660'
+  with_items:
+    - {name: "{{ elasticsearch_users_groups }}-{{ elasticsearch_series }}.yml.j2", path: "{{ elasticsearch_conf_path }}/{{ elasticsearch_users_groups }}.yml"}
+    - {name: "jvm-{{ elasticsearch_series }}.options.j2", path: "{{ elasticsearch_conf_path }}/jvm.options"}
+  notify:
+    - restart elasticsearch
+
+

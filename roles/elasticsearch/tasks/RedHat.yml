@@ -1,0 +1,36 @@
+---
+- name: "[ElasticSearch] Add ElasticSearch repository file [RHEL/CentOS]"
+  template:
+    src: "{{ elasticsearch_rpm_repo_tpl }}"
+    dest: "/etc/yum.repos.d/{{ elasticsearch_rpm_repo_tpl | basename | regex_replace('\\.j2$', '') }}"
+    force: true
+    mode: 0644
+    backup: true
+
+- name: "[ElasticSearch] Install ElasticSearch [RHEL/CentOS]"
+  yum:
+    name: "elasticsearch{{ elasticsearch_series_rpm_version | ternary ('-' + (elasticsearch_series_rpm_version | string),'-' + (elasticsearch_series | string) + '*') }}"
+    state: present
+    disablerepo: "{{ elasticsearch_rpm_disable_repo | d(omit, true) }}"
+    enablerepo: "{{ elasticsearch_rpm_enable_repo | d(omit, true) }}"
+
+- name: 创建目录
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ elasticsearch_users_groups }}"
+    group: "{{ elasticsearch_users_groups }}"
+  loop:
+    - "{{ elasticsearch_path_data }}"
+    - "{{ elasticsearch_path_logs }}"
+    - "{{ elasticsearch_path_repo }}"
+    - "{{ elasticsearch_path_dump }}"
+  when:
+    - elasticsearch_path_data is defined or elasticsearch_path_logs is defined or elasticsearch_path_repo is defined or elasticsearch_path_dump
+
+- name: 设置开机自启
+  systemd:
+    name: elasticsearch
+    enabled: yes
+
+

@@ -10,11 +10,6 @@ mysql ansible_host=192.168.60.8
 #192.168.60.11 hostname="demo6011"
 
 
-
-# ansible_ssh_user  连接远程服务器的用户名
-# ansible_ssh_pass  连接远程服务器的密码
-
-
 # 当redis主从服务和哨兵共用两台服务器时，redis_master, redis_slave和redis_sentinel不能同时开启, 因为安装时需要判断redis_sentinel的值
 # 需要先安装redis_master和redis_slave后再安装redis_sentinel
 #[redis_master]
@@ -32,7 +27,7 @@ mysql ansible_host=192.168.60.8
 # zookeeper单机主机清单
 #zoo1 ansible_host=192.168.60.8
 #
-#[zookeeper-nodes]
+#[zookeeper_nodes]
 #zoo1 zookeeper_id=1
 
 
@@ -41,7 +36,7 @@ zoo1 ansible_host=192.168.60.8
 zoo2 ansible_host=192.168.60.9
 zoo3 ansible_host=192.168.60.11
 
-[zookeeper-nodes]
+[zookeeper_nodes]
 zoo1 zookeeper_id=1
 zoo2 zookeeper_id=2
 zoo3 zookeeper_id=3
@@ -57,6 +52,21 @@ zoo3 zookeeper_id=3
 192.168.60.11 kafka_broker_id=3
 
 
+# ################## elasticsearch #######################
+# 主机组名称必须为:
+#     es_nodes       代表所有需要安装es的节点
+#     es_master      代表master节点
+#     es_data        代表数据节点
+#     es_ingest      代表ingest节点
+#     es_coordinator 代表协调节点
+[es_nodes]
+es1 ansible_host=192.168.60.8
+
+[es_master]
+esm1 ansible_host=192.168.60.8
+
+[es_data]
+esd1 ansible_host=192.168.60.8
 
 
 
