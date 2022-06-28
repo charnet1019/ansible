@@ -5,24 +5,31 @@
   ansible.builtin.import_tasks: pre_checks.yml
   run_once: yes
   delegate_to: localhost
+  when:
+    - "'es_nodes' in group_names"
 
 - name: include common.yml
   include_tasks: common.yml
+  when:
+    - "'es_nodes' in group_names"
 
 - name: 安装elasticsearch
   include_tasks: "{{ ansible_os_family }}.yml"
-  when: "'es_nodes' in group_names"
+  when:
+    - "'es_nodes' in group_names"
 
 - include_tasks: config.yml
-  when: "'es_nodes' in group_names"
+  when:
+    - "'es_nodes' in group_names"
 
 
 - name: 配置master节点
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    #line: "node.master: true"
-    line: "node.roles: [ master ]"
-  when: "'es_master' in group_names"
+    line: "node.master: true"
+    #line: "node.roles: [ master ]"
+  when:
+    - "'es_master' in group_names"
 
 #- name: 配置master节点
 #  blockinfile:
@@ -35,9 +42,10 @@
 - name: 配置数据节点
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    #line: "node.data: true"
-    line: "node.roles: [ data ]"
-  when: "'es_data' in group_names"
+    line: "node.data: true"
+    #line: "node.roles: [ data ]"
+  when:
+    - "'es_data' in group_names"
 
 #- name: 配置数据节点
 #  blockinfile:
@@ -50,9 +58,10 @@
 - name: 配置ingest节点
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    #line: "node.ingest: true"
-    line: "node.roles: [ ingest ]"
-  when: "'es_ingest' in group_names"
+    line: "node.ingest: true"
+    #line: "node.roles: [ ingest ]"
+  when:
+    - "'es_ingest' in group_names"
 
 #- name: 配置ingest节点
 #  blockinfile:
@@ -63,29 +72,32 @@
 #      node.ingest: true
 #  when: "'es_ingest' in group_names"
 
-#- name: 配置协调节点1
-#  lineinfile:
-#    path: /etc/elasticsearch/elasticsearch.yml
-#    line: "node.master: false"
-#  when: "'es_coordinator' in group_names"
-#
-#- name: 配置协调节点2
-#  lineinfile:
-#    path: /etc/elasticsearch/elasticsearch.yml
-#    line: "node.data: false"
-#  when: "'es_coordinator' in group_names"
-#
-#- name: 配置协调节点3
-#  lineinfile:
-#    path: /etc/elasticsearch/elasticsearch.yml
-#    line: "node.ingest: false"
-#  when: "'es_coordinator' in group_names"
-
-- name: 配置协调节点
+- name: 配置协调节点_1
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.roles: [ ]"
-  when: "'es_coordinator' in group_names"
+    line: "node.master: false"
+  when:
+    - "'es_coordinator' in group_names"
+
+- name: 配置协调节点_2
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    line: "node.data: false"
+  when:
+    - "'es_coordinator' in group_names"
+
+- name: 配置协调节点_3
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    line: "node.ingest: false"
+  when:
+    - "'es_coordinator' in group_names"
+
+#- name: 配置协调节点
+#  lineinfile:
+#    path: /etc/elasticsearch/elasticsearch.yml
+#    line: "node.roles: [ ]"
+#  when: "'es_coordinator' in group_names"
 
 #- name: 配置协调节点
 #  blockinfile:
@@ -97,11 +109,13 @@
 #  when: "'es_coordinator' in group_names"
 
 
-- name: start elasticsearch
-  ansible.builtin.systemd:
-    name: elasticsearch
-    state: started
-    enabled: yes
+#- name: start elasticsearch
+#  ansible.builtin.systemd:
+#    name: elasticsearch
+#    state: started
+#    enabled: yes
+#  when:
+#    - "'es_nodes' in group_names"
 
 
 

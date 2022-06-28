@@ -33,4 +33,18 @@
     name: elasticsearch
     enabled: yes
 
+- command: echo $JAVA_HOME
+  #changed_when: false
+  ignore_errors: yes
+  register: java_home
+
+- name: 设置JAVA_HOME
+  lineinfile:
+    path: /etc/sysconfig/elasticsearch
+    insertafter: EOF
+    line: "JAVA_HOME={{ java_home.stdout }}"
+  when:
+    - elasticsearch_series == 6
+
+
 

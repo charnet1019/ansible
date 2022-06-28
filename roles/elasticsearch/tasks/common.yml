@@ -1,5 +1,23 @@
 ---
 
+- name: 检查是否已安装java
+  command: command -v java
+  ignore_errors: yes
+  register: java_bin
+
+- name: 检查是否已设置JAVA_HOME
+  command: echo $JAVA_HOME
+  #changed_when: false
+  ignore_errors: yes
+  register: java_home
+
+- fail:
+    msg: "未检测到java环境，请先安装java并设置JAVA_HOME后再重新执行"
+  when:
+    - java_bin.stdout | trim | length < 0
+      or java_home.stdout | trim | length < 0
+
+
 # 设置es内核参数
 - name: 设置swappiness
   sysctl:

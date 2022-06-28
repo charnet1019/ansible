@@ -12,12 +12,14 @@ elasticsearch_series_deb_version: 7.9.3
 # 默认为单机模式
 elasticsearch_standalone: 'yes'
 
-elasticsearch_rpm_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+#elasticsearch_rpm_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+elasticsearch_rpm_repo_url: https://mirrors.cloud.tencent.com/elasticstack
 elasticsearch_rpm_repo_tpl: etc/yum.repos.d/elasticsearch.repo.j2
 elasticsearch_rpm_disable_repo:
 elasticsearch_rpm_enable_repo:
 
-elasticsearch_deb_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+#elasticsearch_deb_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
+elasticsearch_deb_repo_url: https://mirrors.cloud.tencent.com/elasticstack
 elasticsearch_deb_repo_tpl: etc/apt/sources.list.d/elasticsearch.list.j2
 
 elasticsearch_users_groups: "elasticsearch"

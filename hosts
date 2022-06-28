@@ -1,7 +1,11 @@
 [demo]
 #192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret" ansible_ssh_port=5022
-192.168.60.9 hostname="test-server"
+#192.168.60.9 hostname="test-server"
+192.168.60.11
 
+
+
+# ######################## RabbitMQ #############################
 [rabbitmq_master]
 rabbitmq-master ansible_host=192.168.60.9
 
@@ -10,6 +14,8 @@ mysql ansible_host=192.168.60.8
 #192.168.60.11 hostname="demo6011"
 
 
+
+# ######################## redis #############################
 # 当redis主从服务和哨兵共用两台服务器时，redis_master, redis_slave和redis_sentinel不能同时开启, 因为安装时需要判断redis_sentinel的值
 # 需要先安装redis_master和redis_slave后再安装redis_sentinel
 #[redis_master]
@@ -24,6 +30,7 @@ mysql ansible_host=192.168.60.8
 
 
 
+# ######################## zookeeper #############################
 # zookeeper单机主机清单
 #zoo1 ansible_host=192.168.60.8
 #
@@ -41,6 +48,7 @@ zoo1 zookeeper_id=1
 zoo2 zookeeper_id=2
 zoo3 zookeeper_id=3
 
+# ######################## kafka #############################
 # Kafka单机
 [kafka_nodes]
 192.168.60.8
@@ -52,7 +60,8 @@ zoo3 zookeeper_id=3
 192.168.60.11 kafka_broker_id=3
 
 
-# ################## elasticsearch #######################
+
+# ######################## elasticsearch #############################
 # 主机组名称必须为:
 #     es_nodes       代表所有需要安装es的节点
 #     es_master      代表master节点
@@ -61,12 +70,18 @@ zoo3 zookeeper_id=3
 #     es_coordinator 代表协调节点
 [es_nodes]
 es1 ansible_host=192.168.60.8
+es2 ansible_host=192.168.60.9
+es3 ansible_host=192.168.60.11
 
 [es_master]
 esm1 ansible_host=192.168.60.8
+esm2 ansible_host=192.168.60.9
+esm3 ansible_host=192.168.60.11
 
 [es_data]
 esd1 ansible_host=192.168.60.8
+esd2 ansible_host=192.168.60.9
+esd3 ansible_host=192.168.60.11
 
 
 
