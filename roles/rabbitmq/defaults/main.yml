@@ -40,7 +40,10 @@ rabbitmq_custom_logrotate_tpl: etc/logrotate.d/rabbitmq-server.j2
 rabbitmq_custom_logrotate:
 
 #rabbitmq_users_groups: []
-rabbitmq_users_groups: rabbitmq
+rabbitmq_users_groups:
+  - name: rabbitmq
+    groups: rabbitmq
+    append: true
 
 ###########
 # Cluster #
