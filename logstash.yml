@@ -6,6 +6,8 @@
   roles:
     - logstash
   vars:
+    logstash_series: 8
+    logstash_version: 8.3.0
     logstash_elasticsearch_hosts:
       - "http://{{ elasticsearch_host }}:{{ elasticsearch_port }}"
 

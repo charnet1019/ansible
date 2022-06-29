@@ -19,7 +19,7 @@
 
 - name: Install Logstash.
   apt:
-    name: '{{ logstash_package }}'
+    name: "logstash{{ logstash_version | ternary ('-' + (logstash_version | string),'-' + (logstash_series | string) + '*') }}"
     state: present
 
 - name: Add Logstash user to adm group (Debian).

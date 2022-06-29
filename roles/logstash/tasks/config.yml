@@ -11,6 +11,20 @@
     - 30-elasticsearch-output.conf
   notify: restart logstash
 
+- name: 渲染jvm和logstash配置文件
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/logstash/{{ item | regex_replace('-' + logstash_series | string, '') }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "jvm-{{ logstash_series }}.options"
+    - "logstash-{{ logstash_series }}.yml"
+  when:
+    - logstash_series == 7 or logstash_series == 8
+  notify: restart logstash
+
 - name: Create Logstash filters.
   copy:
     src: "filters/{{ item }}"

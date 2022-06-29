@@ -1,8 +1,9 @@
 ---
 logstash_series: 7
-logstash_version: '7.17.4'
+logstash_version: 7.17.4
 
 logstash_package: logstash
+logstash_repo: https://artifacts.elastic.co/packages
 
 logstash_listen_port_beats: 5044
 
@@ -23,3 +24,48 @@ logstash_enabled_on_boot: true
 logstash_install_plugins:
   - logstash-input-beats
   - logstash-filter-multiline
+
+
+# 节点名称
+logstash_node_name: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+
+# 数据和日志存储路径
+logstash_path_data: /var/lib/logstash
+logstash_path_logs: /var/log/logstash
+
+# 工作线程数,建议大于CPU核数，因存在I/O等待, 默认值: 2
+logstash_pipeline_workers: 4
+# 建议和es的bulk大小一致以提高处理吞吐量, 默认值: 125
+logstash_pipeline_batch_size: 1000
+# 默认值: 50
+logstash_pipeline_batch_delay: 15
+
+
+# 持久化queue防止重启logstash数据丢失, memory(by default) or persisted
+logstash_queue_type: memory
+#logstash_path_queue: /var/lib/logstash/queue
+logstash_path_queue:
+# 单个队列大小
+logstash_queue_page_capacity: 64mb
+# 当启用持久化队列时，队列中未读事件的最大数量，0为不限制
+logstash_queue_max_events: 0
+# 队列最大容量
+logstash_queue_max_bytes: 1024mb
+# 在启用持久队列时强制执行检查点的最大数量,0为不限制
+logstash_queue_checkpoint_acks: 1024
+# 在启用持久队列时强制执行检查点之前的最大数量的写入事件，0为不限制
+logstash_queue_checkpoint_writes: 1024
+# 当启用持久队列时，在头页面上强制一个检查点的时间间隔
+logstash_queue_checkpoint_interval: 1000
+
+
+
+# jvm配置
+logstash_jvm_heap:
+  XMS: "-Xms1g"
+  XMX: "-Xmx1g"
+
+
+
+
+
