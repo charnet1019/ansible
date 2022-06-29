@@ -1,0 +1,15 @@
+---
+
+- hosts: logstash
+  gather_facts: yes
+
+  roles:
+    - logstash
+  vars:
+    logstash_elasticsearch_hosts:
+      - "http://{{ elasticsearch_host }}:{{ elasticsearch_port }}"
+
+  tags:
+    - logstash
+
+

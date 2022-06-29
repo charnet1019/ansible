@@ -61,6 +61,7 @@ zoo3 zookeeper_id=3
 
 
 
+
 # ######################## elasticsearch #############################
 # 主机组名称必须为:
 #     es_nodes       代表所有需要安装es的节点
@@ -69,21 +70,30 @@ zoo3 zookeeper_id=3
 #     es_ingest      代表ingest节点
 #     es_coordinator 代表协调节点
 [es_nodes]
-es1 ansible_host=192.168.60.8
-es2 ansible_host=192.168.60.9
+#es1 ansible_host=192.168.60.8
+#es2 ansible_host=192.168.60.9
 es3 ansible_host=192.168.60.11
 
 [es_master]
-esm1 ansible_host=192.168.60.8
-esm2 ansible_host=192.168.60.9
+#esm1 ansible_host=192.168.60.8
+#esm2 ansible_host=192.168.60.9
 esm3 ansible_host=192.168.60.11
 
 [es_data]
-esd1 ansible_host=192.168.60.8
-esd2 ansible_host=192.168.60.9
+#esd1 ansible_host=192.168.60.8
+#esd2 ansible_host=192.168.60.9
 esd3 ansible_host=192.168.60.11
 
 
+
+
+# ######################## logstash #############################
+[logstash]
+192.168.60.8
+
+[logstash:vars]
+elasticsearch_host=192.168.60.11
+elasticsearch_port=9200
 
 
 
