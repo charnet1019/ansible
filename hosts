@@ -69,22 +69,38 @@ zoo3 zookeeper_id=3
 #     es_data        代表数据节点
 #     es_ingest      代表ingest节点
 #     es_coordinator 代表协调节点
-[es_nodes]
-#es1 ansible_host=192.168.60.8
-#es2 ansible_host=192.168.60.9
+es1 ansible_host=192.168.60.8
+es2 ansible_host=192.168.60.9
 es3 ansible_host=192.168.60.11
 
+[es_nodes]
+es1
+es2
+es3
+
 [es_master]
-#esm1 ansible_host=192.168.60.8
-#esm2 ansible_host=192.168.60.9
-esm3 ansible_host=192.168.60.11
+es1
+#es2
+#es3
 
 [es_data]
-#esd1 ansible_host=192.168.60.8
-#esd2 ansible_host=192.168.60.9
-esd3 ansible_host=192.168.60.11
+#es1
+es2
+es3
 
+[es_ingest]
+es1
+es2
+es3
 
+[es_coordinator]
+
+[es:children]
+es_nodes
+es_master
+es_data
+es_ingest
+es_coordinator
 
 
 # ######################## logstash #############################
@@ -94,6 +110,19 @@ esd3 ansible_host=192.168.60.11
 [logstash:vars]
 elasticsearch_host=192.168.60.11
 elasticsearch_port=9200
+
+
+# ######################## kibana #############################
+[kibana]
+192.168.60.8
+
+[kibana:vars]
+elasticsearch_host=192.168.60.11
+elasticsearch_port=9200
+
+
+
+
 
 
 

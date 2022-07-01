@@ -7,9 +7,8 @@
       - elasticsearch_type is string
       - elasticsearch_type in [ "elastic", "oss" ]
       - elasticsearch_series is defined
-      - elasticsearch_series_rpm_version is defined
-      - elasticsearch_series_deb_version is defined
-      - elasticsearch_standalone is defined
+      - elasticsearch_series_version is defined
+      #- elasticsearch_standalone is defined
       - elasticsearch_rpm_repo_url is defined
       - elasticsearch_rpm_repo_tpl is defined
       - elasticsearch_deb_repo_url is defined
@@ -40,7 +39,7 @@
   with_items:
     - elasticsearch_type
     - elasticsearch_series
-    - elasticsearch_standalone
+    #- elasticsearch_standalone
     - elasticsearch_rpm_repo_url
     - elasticsearch_rpm_repo_tpl
     - elasticsearch_deb_repo_url

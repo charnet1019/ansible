@@ -1,0 +1,39 @@
+---
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+#- name: Install Kibana.
+#  package:
+#    name: "{{ kibana_package }}"
+#    state: "{{ kibana_package_state }}"
+
+- name: Install Kibana.
+  yum:
+    name: "{{ kibana_package }}{{ kibana_version | ternary ('-' + (kibana_version | string),'-' + (kibana_series | string) + '*') }}"
+    state: "{{ kibana_package_state }}"
+
+- name: Ensure Kibana is started and enabled at boot.
+  service:
+    name: kibana
+    state: "{{ kibana_service_state }}"
+    enabled: "{{ kibana_service_enabled }}"
+
+- name: Copy Kibana configuration.
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/kibana/{{ item | regex_replace('-' + kibana_series | string, '') }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "node-{{ kibana_series }}.options"
+    - "kibana-{{ kibana_series }}.yml"
+  when:
+    - kibana_series == 7 or kibana_series == 8
+  notify: restart kibana
+
+
+

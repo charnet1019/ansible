@@ -23,90 +23,103 @@
     - "'es_nodes' in group_names"
 
 
-- name: 配置master节点
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.master: true"
-    #line: "node.roles: [ master ]"
-  when:
-    - "'es_master' in group_names"
+      #- name: 配置master节点
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.master: true"
+      #    #line: "node.roles: [ master ]"
+      #  when:
+      #    - "'es_master' in group_names"
 
-#- name: 配置master节点
+#- name: "[ElasticSearch 6] 配置全角色节点"
 #  blockinfile:
 #    path: /etc/elasticsearch/elasticsearch.yml
 #    block: |
 #      node.master: true
-#      node.data: false
-#  when: "'es_master' in group_names"
+#      node.data: true
+#  when:
+#    - "'es_master' in group_names"
+#    - "'es_data' in group_names"
 
-- name: 配置数据节点
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.data: true"
-    #line: "node.roles: [ data ]"
-  when:
-    - "'es_data' in group_names"
 
-#- name: 配置数据节点
+
+      #- name: 配置数据节点
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.data: true"
+      #    #line: "node.roles: [ data ]"
+      #  when:
+      #    - "'es_data' in group_names"
+
+#- name: "[ElasticSearch 6] 配置数据节点"
 #  blockinfile:
 #    path: /etc/elasticsearch/elasticsearch.yml
 #    block: |
 #      node.master: false
 #      node.data: true
-#  when: "'es_data' in group_names"
+#  when:
+#    - "'es_data' in group_names"
+#    - "groups['es_data'] not in groups['es_master']"
 
-- name: 配置ingest节点
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.ingest: true"
-    #line: "node.roles: [ ingest ]"
-  when:
-    - "'es_ingest' in group_names"
+      #- name: 配置ingest节点
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.ingest: true"
+      #    #line: "node.roles: [ ingest ]"
+      #  when:
+      #    - "'es_ingest' in group_names"
 
-#- name: 配置ingest节点
+#- name: "[ElasticSearch 6] 配置ingest节点"
 #  blockinfile:
 #    path: /etc/elasticsearch/elasticsearch.yml
 #    block: |
 #      node.master: false
 #      node.data: false
 #      node.ingest: true
-#  when: "'es_ingest' in group_names"
+#  when:
+#    - "'es_ingest' in group_names"
+#    - "groups['es_ingest'] not in groups['es_master']"
+#    - "groups['es_ingest'] not in groups['es_data']"
 
-- name: 配置协调节点_1
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.master: false"
-  when:
-    - "'es_coordinator' in group_names"
+      #- name: 配置协调节点_1
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.master: false"
+      #  when:
+      #    - "'es_coordinator' in group_names"
+      #
+      #- name: 配置协调节点_2
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.data: false"
+      #  when:
+      #    - "'es_coordinator' in group_names"
+      #
+      #- name: 配置协调节点_3
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.ingest: false"
+      #  when:
+      #    - "'es_coordinator' in group_names"
+      #
+      #- name: 配置协调节点
+      #  lineinfile:
+      #    path: /etc/elasticsearch/elasticsearch.yml
+      #    line: "node.roles: [ ]"
+      #  when: "'es_coordinator' in group_names"
 
-- name: 配置协调节点_2
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.data: false"
-  when:
-    - "'es_coordinator' in group_names"
-
-- name: 配置协调节点_3
-  lineinfile:
-    path: /etc/elasticsearch/elasticsearch.yml
-    line: "node.ingest: false"
-  when:
-    - "'es_coordinator' in group_names"
-
-#- name: 配置协调节点
-#  lineinfile:
-#    path: /etc/elasticsearch/elasticsearch.yml
-#    line: "node.roles: [ ]"
-#  when: "'es_coordinator' in group_names"
-
-#- name: 配置协调节点
+#- name: "[ElasticSearch 6] 配置协调节点"
 #  blockinfile:
 #    path: /etc/elasticsearch/elasticsearch.yml
 #    block: |
 #      node.master: false
 #      node.data: false
 #      node.ingest: false
-#  when: "'es_coordinator' in group_names"
+#  when:
+#    - "'es_coordinator' in group_names"
+#    - "groups['es_coordinator'] not in groups['es_master']"
+#    - "groups['es_coordinator'] not in groups['es_data']"
+#    - "groups['es_coordinator'] not in groups['es_ingest']"
 
 
 #- name: start elasticsearch

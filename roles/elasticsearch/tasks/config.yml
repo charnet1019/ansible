@@ -5,10 +5,23 @@
     src: "{{ item.name }}"
     dest: "{{ item.path }}"
     mode: '0660'
+    owner: root
+    group: "{{ elasticsearch_users_groups }}"
   with_items:
     - {name: "{{ elasticsearch_users_groups }}-{{ elasticsearch_series }}.yml.j2", path: "{{ elasticsearch_conf_path }}/{{ elasticsearch_users_groups }}.yml"}
     - {name: "jvm-{{ elasticsearch_series }}.options.j2", path: "{{ elasticsearch_conf_path }}/jvm.options"}
   notify:
     - restart elasticsearch
 
+- name: "[ElasticSearch] Update ElasticSearch service script [RHEL/CentOS]"
+  template:
+    src: "{{ item }}.j2"
+    dest: "/usr/lib/systemd/system/{{ item }}"
+    mode: '0644'
+  with_items:
+    - "elasticsearch.service"
+  notify:
+    - restart elasticsearch
+  when:
+    - elasticsearch_bootstrap_memory_lock != None and elasticsearch_bootstrap_memory_lock
 

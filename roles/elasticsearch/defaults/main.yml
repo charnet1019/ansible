@@ -6,11 +6,10 @@
 elasticsearch_type: oss
 
 elasticsearch_series: 7
-elasticsearch_series_rpm_version: 7.9.3
-elasticsearch_series_deb_version: 7.9.3
+elasticsearch_series_version: 7.9.3
 
 # 默认为单机模式
-elasticsearch_standalone: 'yes'
+#elasticsearch_standalone: 'yes'
 
 #elasticsearch_rpm_repo_url: https://mirrors.tuna.tsinghua.edu.cn/elasticstack
 elasticsearch_rpm_repo_url: https://mirrors.cloud.tencent.com/elasticstack
@@ -30,6 +29,9 @@ elasticsearch_cluster_name: "elasticsearch"
 # 节点名称
 #elasticsearch_node_name: "elasticsearch"
 elasticsearch_node_name: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+
+# ElasticSearch 7 和 ElasticSearch 8 配置节点角色使用
+elasticsearch_roles: []
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/8.3/modules-node.html
 # 主节点,负责管理集群，如节点加入移除和增加删除索引,以及决定将哪些分片分配给哪些节点; Master不负责数据的索引和检索，所以负载较轻
@@ -107,7 +109,7 @@ elasticsearch_cluster_max_shards_per_node: 1000
 
 # 设置JVM锁定内存,减少内存和磁盘间的数据交换
 # 需要设置memlock unlimited,否则即使设定了此参数elasticsearch也无法锁定内存
-elasticsearch_bootstrap.memory_lock:
+elasticsearch_bootstrap_memory_lock:
 
 # jvm配置
 elasticsearch_jvm_heap: 
@@ -126,5 +128,49 @@ elasticsearch_nproc_limit: 100001
 
 # es配置文件路径
 elasticsearch_conf_path: /etc/elasticsearch
+
+
+
+# 多久执行一次刷新操作,即数据写入后几秒可以被搜索到
+# 默认1s, 设置为-1时为禁止刷新
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.3/index-modules.html
+elasticsearch_index_refresh_interval:
+
+# 单个分片上可以同时合并的最大线程数
+# 默认值: Math.max(1, Math.min(4, <<node.processors, node.processors>> / 2)), 适合于SSD
+# 机械磁盘建议设置为 1
+# https://www.elastic.co/guide/en/elasticsearch/reference/6.8/index-modules-merge.html
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.3/index-modules-merge.html
+elasticsearch_index_merge_scheduler_max_thread_count:
+# 接受百分比或字节大小值。它默认为10%, 即将总堆内存的10%供所有分片共享使用
+elasticsearch_indices_memory_index_buffer_size:
+# 如果index_buffer_size指定为百分比，则此设置可用于指定绝对最小值。默认为48mb.
+elasticsearch_indices_memory_min_index_buffer_size:
+# 如果index_buffer_size指定为百分比，则此设置可用于指定绝对最大值。默认为无限制
+elasticsearch_indices_memory_max_index_buffer_size:
+
+
+# translog 中的数据仅在 translog 被 fsync编辑和提交时才会持久化到磁盘。
+# 如果发生硬件故障或操作系统崩溃或 JVM 崩溃或分片故障，自上次 translog 提交以来写入的任何数据都将丢失。
+# 是否fsync在每次索引、删除、更新或批量请求后提交事务日志, 
+# 默认值为request即每次请求后提交
+# async: 异步提交，如果发生故障自上次提交后的数据会被丢弃
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.3/index-modules-translog.html
+elasticsearch_index_translog_durability:
+# 间隔多久将translog写入磁盘
+# 默认5s,不能小于100ms
+elasticsearch_index_translog_sync_interval:
+# translog日志最大大小,默认: 512mb
+elasticsearch_index_translog_flush_threshold_size:
+
+
+
+# 节点故障检测(es6)
+# 节点被 ping 的频率。默认为1s
+elasticsearch_discovery_zen_fd_ping_interval:
+# 等待 ping 响应的时间，默认为 30s
+elasticsearch_discovery_zen_fd_ping_timeout:
+# 失败重试次数,默认为3
+elasticsearch_discovery_zen_fd_ping_retries:
 
 

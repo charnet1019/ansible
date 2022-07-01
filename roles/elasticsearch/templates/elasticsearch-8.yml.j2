@@ -41,7 +41,11 @@ path.repo: {{ elasticsearch_path_repo }}
 #
 # Lock the memory on startup:
 #
+{% if elasticsearch_bootstrap_memory_lock %}
+bootstrap.memory_lock: {{ elasticsearch_bootstrap_memory_lock | lower }}
+{% else %}
 #bootstrap.memory_lock: true
+{% endif %}
 #
 # Make sure that the heap size is set to about half the memory available
 # on the system and that the owner of the process is allowed to use this
@@ -119,7 +123,78 @@ cluster.initial_master_nodes: [{% for host in elasticsearch_cluster_initial_mast
 #transport.host: 0.0.0.0
 
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+#
+
+# ---------------------------------- Roles -----------------------------------
+#
+{% if inventory_hostname in groups['es_master'] and inventory_hostname not in groups['es_data'] and inventory_hostname not in groups['es_ingest'] %}
+node.roles: [ master ]
+{% endif %}
+{% if inventory_hostname in groups['es_master'] and inventory_hostname not in groups['es_data'] and inventory_hostname in groups['es_ingest'] %}
+node.roles: [ master,ingest ]
+{% endif %}
+
+{% if inventory_hostname in groups['es_data'] and inventory_hostname not in groups['es_master'] and inventory_hostname not in groups['es_ingest'] %}
+node.roles: [ data ]
+{% endif %}
+{% if inventory_hostname in groups['es_data'] and inventory_hostname not in groups['es_master'] and inventory_hostname in groups['es_ingest'] %}
+node.roles: [ data, ingest ]
+{% endif %}
+
+{% if inventory_hostname in groups['es_ingest'] and inventory_hostname not in groups['es_master'] and inventory_hostname not in groups['es_data'] %}
+node.roles: [ ingeset ]
+{% endif %}
+
+{% if inventory_hostname in groups['es_master'] and inventory_hostname in groups['es_data'] and inventory_hostname not in groups['es_ingest'] %}
+node.roles: [ master, data ]
+{% endif %}
+
+{% if inventory_hostname in groups['es_master'] and inventory_hostname in groups['es_data'] and inventory_hostname in groups['es_ingest'] %}
+node.roles: [ master, data, ingest ]
+{% endif %}
+
+{% if inventory_hostname in groups['es_coordinator'] %}
+node.roles: [ ]
+{% endif %}
 
 
+{% if elasticsearch_index_refresh_interval %}
+index.refresh_interval
+{% endif %}
 
+{% if elasticsearch_index_merge_scheduler_max_thread_count %}
+index.merge.scheduler.max_thread_count: {{ elasticsearch_index_merge_scheduler_max_thread_count }}
+{% endif %}
+
+{% if elasticsearch_indices_memory_index_buffer_size %}
+indices.memory.index_buffer_size: {{ elasticsearch_indices_memory_index_buffer_size }}
+{% endif %}
+{% if elasticsearch_indices_memory_min_index_buffer_size %}
+indices.memory.min_index_buffer_size: {{ elasticsearch_indices_memory_min_index_buffer_size }}
+{% endif %}
+{% if elasticsearch_indices_memory_max_index_buffer_size %}
+indices.memory.max_index_buffer_size: {{ elasticsearch_indices_memory_max_index_buffer_size }}
+{% endif %}
+
+
+{% if elasticsearch_index_translog_durability %}
+index.translog.durability: {{ elasticsearch_index_translog_durability }}
+{% endif %}
+{% if elasticsearch_index_translog_sync_interval %}
+index.translog.sync_interval: {{ elasticsearch_index_translog_sync_interval }}
+{% endif %}
+{% if elasticsearch_index_translog_flush_threshold_size %}
+index.translog.flush_threshold_size: {{ elasticsearch_index_translog_flush_threshold_size }}
+{% endif %}
+
+
+{% if elasticsearch_discovery_zen_fd_ping_interval and elasticsearch_series == 6 %}
+discovery.zen.fd.ping_interval: {{ elasticsearch_discovery_zen_fd_ping_interval }}
+{% endif %}
+{% if elasticsearch_discovery_zen_fd_ping_timeout and elasticsearch_series == 6 %}
+discovery.zen.fd.ping_timeout: {{ elasticsearch_discovery_zen_fd_ping_timeout }}
+{% endif %}
+{% if elasticsearch_discovery_zen_fd_ping_retries and elasticsearch_series == 6 %}
+discovery.zen.fd.ping_retries: {{ elasticsearch_discovery_zen_fd_ping_retries }}
+{% endif %}
 

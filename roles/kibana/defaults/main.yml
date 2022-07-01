@@ -1,0 +1,60 @@
+---
+kibana_series: 7
+kibana_version: 7.17.4
+kibana_repo: https://artifacts.elastic.co/packages
+
+kibana_package: kibana
+kibana_package_state: present
+
+kibana_service_state: started
+kibana_service_enabled: true
+
+#kibana_config_template: kibana.yml.j2
+#kibana_config_file_path: /etc/kibana/kibana.yml
+
+kibana_server_port: 5601
+kibana_server_host: "0.0.0.0"
+
+kibana_elasticsearch_url: "http://localhost:9200"
+kibana_elasticsearch_username: ""
+kibana_elasticsearch_password: ""
+
+
+# Time in milliseconds to wait for responses from the back end or Elasticsearch. This value
+# must be a positive integer. Default: 30000
+kibana_elasticsearch_requestTimeout:
+
+# 最大堆内存 MB
+kibana_max_old_space_size:
+
+# The number of documents migrated at a time.
+# If Kibana can't start up or upgrade due to an Elasticsearch `circuit_breaking_exception`,
+# use a smaller batchSize value to reduce the memory pressure. Defaults to 1000 objects per batch.
+kibana_migrations_batchSize:
+
+# The maximum payload size for indexing batches of upgraded saved objects.
+# To avoid migrations failing due to a 413 Request Entity Too Large response from Elasticsearch.
+# This value should be lower than or equal to your Elasticsearch cluster’s `http.max_content_length`
+# configuration option. Default: 100mb
+kibana_migrations_maxBatchSizeBytes:
+
+# The number of times to retry temporary migration failures. Increase the setting
+# if migrations fail frequently with a message such as `Unable to complete the [...] step after
+# 15 attempts, terminating`. Defaults to 15
+kibana_migrations_retryAttempts:
+
+# Time in milliseconds to wait for autocomplete suggestions from Elasticsearch.
+# This value must be a whole number greater than zero. Defaults to 1000ms
+kibana_unifiedSearch_autocomplete_valueSuggestions_timeout:
+
+# Maximum number of documents loaded by each shard to generate autocomplete suggestions.
+# This value must be a whole number greater than zero. Defaults to 100_000
+kibana_unifiedSearch_autocomplete_valueSuggestions_terminateAfter:
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+---
+
+- hosts: kibana
+  gather_facts: yes
+
+  roles:
+    - kibana
+  vars:
+    kibana_series: 7
+    kibana_version: 7.9.3
+    kibana_elasticsearch_url: "http://{{ elasticsearch_host }}:{{ elasticsearch_port }}"
+
+  tags:
+    - kibana
+
+

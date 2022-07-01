@@ -1,16 +1,16 @@
 ---
 
-- hosts: es_nodes es_master es_data
+- hosts: es
   gather_facts: yes
 
   vars:
     - elasticsearch_series: 7
-    - elasticsearch_series_rpm_version: 7.9.3
+    - elasticsearch_series_version: 7.9.3
     - elasticsearch_network_host: "{{ ansible_default_ipv4['address'] }}"
     - elasticsearch_http_port: 9200
     - elasticsearch_jvm_heap:
-        XMS: "-Xms1g"
-        XMX: "-Xmx1g"
+        XMS: "-Xms512m"
+        XMX: "-Xmx512m"
 
   roles:
     - elasticsearch

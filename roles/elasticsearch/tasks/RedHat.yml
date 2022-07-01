@@ -9,10 +9,12 @@
 
 - name: "[ElasticSearch] Install ElasticSearch [RHEL/CentOS]"
   yum:
-    name: "elasticsearch{{ elasticsearch_series_rpm_version | ternary ('-' + (elasticsearch_series_rpm_version | string),'-' + (elasticsearch_series | string) + '*') }}"
+    name: "elasticsearch{{ elasticsearch_series_version | ternary ('-' + (elasticsearch_series_version | string),'-' + (elasticsearch_series | string) + '*') }}"
     state: present
     disablerepo: "{{ elasticsearch_rpm_disable_repo | d(omit, true) }}"
     enablerepo: "{{ elasticsearch_rpm_enable_repo | d(omit, true) }}"
+  register: elasticsearch__register_packages
+  until: elasticsearch__register_packages is succeeded
 
 - name: 创建目录
   file:

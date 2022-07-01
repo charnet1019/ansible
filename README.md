@@ -86,3 +86,8 @@ Number of days of warning before password expires	: 7
 [defaults]
 interpreter_python = auto_legacy_silent
 ```
+
+## java.lang.IllegalStateException: There are no ingest nodes in this cluster, unable to forward request to an ingest node  
+```
+集群必须要有ingest节点
+```

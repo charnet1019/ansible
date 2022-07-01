@@ -36,6 +36,12 @@ LimitNOFILE=65535
 # Specifies the maximum number of processes
 LimitNPROC=4096
 
+{% if elasticsearch_bootstrap_memory_lock %}
+LimitMEMLOCK=infinity
+{% else %}
+#LimitMEMLOCK=infinity
+{% endif %}
+
 # Specifies the maximum size of virtual memory
 LimitAS=infinity
 

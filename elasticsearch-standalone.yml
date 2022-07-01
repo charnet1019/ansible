@@ -9,8 +9,9 @@
     - elasticsearch_network_host: "{{ ansible_default_ipv4['address'] }}"
     - elasticsearch_http_port: 9200
     - elasticsearch_jvm_heap:
-        XMS: "-Xms1g"
-        XMX: "-Xmx1g"
+        XMS: "-Xms512m"
+        XMX: "-Xmx512m"
+    - elasticsearch_bootstrap_memory_lock: true
 
   roles:
     - elasticsearch
