@@ -1,0 +1,78 @@
+---
+  
+- hosts: mongo
+  gather_facts: yes
+
+  vars:
+    mongodb_net_bindip: "127.0.0.1,{{ ansible_default_ipv4.address }}"
+    mongodb_security_authorization: "enabled"
+    mongodb_replication_replset: rstest
+    mongodb_users:
+      - {
+        name: clusteradmin,
+        password: passw0rd,
+        roles: clusterAdmin,
+        database: admin
+    }
+      - {
+        name: dbadmin,
+        password: passw0rd,
+        roles: dbAdmin,
+        database: admin
+    }
+      - {
+        name: useradmin,
+        password: passw0rd,
+        roles: userAdmin,
+        database: admin
+    }
+      - {
+        name: dbowner,
+        password: passw0rd,
+        roles: dbOwner,
+        database: admin
+    }
+      - {
+        name: adminrw,
+        password: passw0rd,
+        roles: readWrite,
+        database: admin
+    }
+      - {
+        name: developmentrw,
+        password: passw0rd,
+        roles: readWrite,
+        database: development
+    }
+
+    mongodb_oplog_users:
+      - {
+        user: oplog,
+        password: passw0rd
+    }
+
+    mongodb_login_host: 192.168.60.8
+    # host_type can be replica(default) and arbiter
+    mongodb_replication_params:
+      - {
+          host_name: 192.168.60.8,
+          host_port: "{{ mongodb_net_port }}",
+          host_type: replica,
+        }
+      - {
+          host_name: 192.168.60.9,
+          host_port: "{{ mongodb_net_port }}",
+          host_type: replica,
+        }
+      - {
+          host_name: 192.168.60.11,
+          host_port: "{{ mongodb_net_port }}",
+          host_type: arbiter,
+        }
+
+  roles:
+    - mongodb
+  tags:
+    - mongodb
+
+

@@ -1,0 +1,36 @@
+---
+  
+- hosts: mongo
+  gather_facts: yes
+
+  vars:
+    mongodb_net_bindip: 0.0.0.0
+    mongodb_security_authorization: "enabled"
+    mongodb_replication_replset: rsdemo
+    mongodb_users:
+      - {
+        name: testuser,
+        password: passw0rd,
+        roles: readWrite,
+        database: development
+    }
+    mongodb_oplog_users:
+      - {
+        user: oplog,
+        password: passw0rd
+    }
+    mongodb_login_host: 192.168.60.8
+    # host_type can be replica(default) and arbiter
+    mongodb_replication_params:
+      - {
+          host_name: 192.168.60.8,
+          host_port: "{{ mongodb_net_port }}",
+          host_type: replica,
+        }
+
+  roles:
+    - mongodb
+  tags:
+    - mongodb
+
+
