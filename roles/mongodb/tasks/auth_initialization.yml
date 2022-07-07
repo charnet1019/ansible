@@ -28,7 +28,7 @@
       password: "{{ mongodb_user_admin_password }}",
       roles: "userAdminAnyDatabase"
       }
-  #no_log: true
+  no_log: true
 
 - name: create administrative user "{{ mongodb_root_admin_name }}"
   mongodb_user:
@@ -45,7 +45,7 @@
       password: "{{ mongodb_root_admin_password }}",
       roles: "root"
       }
-  #no_log: true
+  no_log: true
 
 - name: create backup user "{{ mongodb_root_backup_name }}"
   mongodb_user:
@@ -62,7 +62,7 @@
       password: "{{ mongodb_root_backup_password }}",
       roles: "backup,clusterMonitor"
       }
-  #no_log: true
+  no_log: true
 
 - name: Move back mongod.conf
   template:

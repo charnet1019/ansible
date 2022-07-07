@@ -1,0 +1,28 @@
+---
+- name: Stop MySQL to change configs
+  systemd:
+    name: '{{ mysql_service_name }}'
+    state: stopped
+    daemon_reload: true
+
+- name: Wait until the lock file is removed
+  wait_for:
+    path: '/var/lock/subsys/mysql'
+    state: absent
+
+- name: Find InnoDB log files
+  find:
+    paths: '{{ mysql_datadir }}'
+    patterns: 'ib_logfile*'
+  register: innodb_log
+
+- name: Remove default InnoDB log files
+  file:
+    path: '{{ idb_log.path }}'
+    state: absent
+  loop: '{{ innodb_log.files }}'
+  loop_control:
+    loop_var: idb_log
+  # 当为mariadb时不删除ib_logfile0,否则启动失败
+  when:
+    - mysql_daemon != 'mariadb'

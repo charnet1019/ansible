@@ -1,1 +1,4 @@
 .travis.yml
+.ansible-lint
+.github
+.yamllint

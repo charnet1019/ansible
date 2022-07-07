@@ -7,13 +7,13 @@
 
 # ######################## RabbitMQ #############################
 rabbitmq-master ansible_host=192.168.60.9
-mysql ansible_host=192.168.60.8
+rabbitmq-slave ansible_host=192.168.60.8
 
 [rabbitmq_master]
 rabbitmq-master
 
 [rabbitmq_slave]
-mysql
+rabbitmq-slave
 #192.168.60.11 hostname="demo6011"
 
 
@@ -147,7 +147,17 @@ mongodb_master
 mongodb_replica
 
 
+# ######################## MySQL #############################
+# ####### 单机模式 #######
+[mysql_master]
+192.168.60.8
 
+[mysql_slave]
+192.168.60.9
+
+[mysql:children]
+mysql_master
+#mysql_slave
 
 
 

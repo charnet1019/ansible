@@ -34,6 +34,9 @@
   ansible demo -i hosts -m setup
   ```
 
+#[jinja2在线语法校验](#jinja2)  
+> https://j2live.ttl255.com/  
+
 
 ---
 # SSH相关配置  
