@@ -19,32 +19,32 @@
         #rabbitmq_series_rpm_version: 3.9.10
         #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
-        #rabbitmq_erlang_config: |
-        #  {rabbit, [
-        #     {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
-        #    ]
-        #  }
-        #rabbitmq_env_config:
-        #  NODENAME: "{{ ansible_nodename }}"
-        #  RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
-        #  RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
-        #  #USE_LONGNAME: "true"
-        #rabbitmq_node_name: "{{ ansible_nodename }}"
-        #rabbitmq_users_to_create:
-        #  - user: admin
-        #    password: admin
-        #    vhost: /
-        #    configure_priv: .*
-        #    read_priv: .*
-        #    write_priv: .*
-        #    tags: administrator
-        #rabbitmq_users_to_delete:
-        #  - guest
-        #rabbitmq_plugins_to_enable:
-        #  - rabbitmq_management
-        #  - rabbitmq_shovel
-        #rabbitmq_management_port: 15672    # web管理端口
-        #rabbitmq_hide_log: false
+        rabbitmq_erlang_config: |
+          {rabbit, [
+             {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
+            ]
+          }
+        rabbitmq_env_config:
+          NODENAME: "{{ ansible_nodename }}"
+          RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
+          RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
+          #USE_LONGNAME: "true"
+        rabbitmq_node_name: "{{ ansible_nodename }}"
+        rabbitmq_users_to_create:
+          - user: admin
+            password: admin
+            vhost: /
+            configure_priv: .*
+            read_priv: .*
+            write_priv: .*
+            tags: administrator
+        rabbitmq_users_to_delete:
+          - guest
+        rabbitmq_plugins_to_enable:
+          - rabbitmq_management
+          - rabbitmq_shovel
+        rabbitmq_management_port: 15672    # web管理端口
+        rabbitmq_hide_log: false
   tags:
     - rabbitmq-master
 
@@ -70,32 +70,32 @@
         #rabbitmq_series_rpm_version: 3.9.10
         #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
-        #rabbitmq_erlang_config: |
-        #  {rabbit, [
-        #     {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
-        #    ]
-        #  }
-        #rabbitmq_env_config:
-        #  NODENAME: "{{ ansible_nodename }}"
-        #  RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
-        #  RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
-        #  #USE_LONGNAME: "true"
-        #rabbitmq_node_name: "{{ ansible_nodename }}"
-        #rabbitmq_users_to_create:
-        #  - user: admin
-        #    password: admin
-        #    vhost: /
-        #    configure_priv: .*
-        #    read_priv: .*
-        #    write_priv: .*
-        #    tags: administrator
-        #rabbitmq_users_to_delete:
-        #  - guest
-        #rabbitmq_plugins_to_enable:
-        #  - rabbitmq_management
-        #  - rabbitmq_shovel
-        #rabbitmq_management_port: 15672    # web管理端口
-        #rabbitmq_hide_log: false
+        rabbitmq_erlang_config: |
+          {rabbit, [
+             {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
+            ]
+          }
+        rabbitmq_env_config:
+          NODENAME: "{{ ansible_nodename }}"
+          RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
+          RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
+          #USE_LONGNAME: "true"
+        rabbitmq_node_name: "{{ ansible_nodename }}"
+        rabbitmq_users_to_create:
+          - user: admin
+            password: admin
+            vhost: /
+            configure_priv: .*
+            read_priv: .*
+            write_priv: .*
+            tags: administrator
+        rabbitmq_users_to_delete:
+          - guest
+        rabbitmq_plugins_to_enable:
+          - rabbitmq_management
+          - rabbitmq_shovel
+        rabbitmq_management_port: 15672    # web管理端口
+        rabbitmq_hide_log: false
   tags:
     - rabbitmq-slave
 
