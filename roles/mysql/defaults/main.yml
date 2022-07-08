@@ -151,7 +151,7 @@ mysql_expire_logs_days: "10"
 mysql_replication_role: ""
 mysql_replication_master: ""
 # Same keys as `mysql_users` above.
-mysql_replication_user: []
+mysql_replication_user: {}
 
 # if you want to add some other parametrs, which must be in my.cnf file.
 # additional_parameters: []

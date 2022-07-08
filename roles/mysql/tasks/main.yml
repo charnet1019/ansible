@@ -32,3 +32,8 @@
   include_tasks: databases_and_users.yml
   vars:
     ansible_python_interpreter: /usr/bin/python3
+
+- name: Setup replication
+  include_tasks: replication.yml
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

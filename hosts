@@ -149,15 +149,18 @@ mongodb_replica
 
 # ######################## MySQL #############################
 # ####### 单机模式 #######
-[mysql_master]
-192.168.60.8
+#[mysql]
+#192.168.60.8
 
-[mysql_slave]
-192.168.60.9
+# ####### 主从模式 #######
+[mysql]
+master001 ansible_host=192.168.60.8 mysql_server_id=608 mysql_replication_role="master"
+slave001 ansible_host=192.168.60.9 mysql_server_id=609 mysql_replication_role="slave"
 
-[mysql:children]
-mysql_master
-#mysql_slave
+[mysql:vars]
+mysql_replication_master="{{ hostvars['master001'] }}"
+#mysql_max_binlog_size="1G"
+#mysql_binlog_format="ROW"
 
 
 
