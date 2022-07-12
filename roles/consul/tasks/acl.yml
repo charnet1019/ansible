@@ -8,9 +8,9 @@
       changed_when: false
       run_once: true
 
-    - name: debug ============================== config_read
-      debug:
-        var: config_read
+    #- name: debug ============================== config_read
+    #  debug:
+    #    var: config_read
 
     - name: Save acl_master_token from existing configuration
       set_fact:
@@ -32,13 +32,13 @@
       run_once: true
       no_log: "{{ consul_hide_log }}"
 
-    - name: debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% bootstrap_state
-      debug:
-        var: bootstrap_state
+    #- name: debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% bootstrap_state
+    #  debug:
+    #    var: bootstrap_state
 
-    - name: debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% consul_acl_master_token_keygen
-      debug:
-        var: consul_acl_master_token_keygen
+    #- name: debug %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% consul_acl_master_token_keygen
+    #  debug:
+    #    var: consul_acl_master_token_keygen
 
     - name: Save ACL master token
       set_fact:
