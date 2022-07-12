@@ -2,4 +2,4 @@
 .ansible-lint
 .github
 .yamllint
-*.zip
+roles/consul/files/*.zip
