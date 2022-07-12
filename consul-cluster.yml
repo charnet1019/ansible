@@ -1,0 +1,20 @@
+---
+
+- hosts: consul_instances
+  gather_facts: yes
+
+  roles:
+    - role: consul
+      vars:
+        consul_version: 1.12.2
+        consul_datacenter: dc1
+        consul_addresses_http: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+        consul_acl_enable: true
+        consul_connect_enabled: true
+        consul_install_upgrade: true   # 是否升级旧版本
+        consul_data_path: "/data/consul/data"
+        consul_hide_log: false   # 隐藏敏感信息
+  tags:
+    - consul
+
+

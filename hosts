@@ -1,19 +1,18 @@
+# 主机清单
 [demo]
-#192.168.60.9 ansible_ssh_user="root" ansible_ssh_pass="secret" ansible_ssh_port=5022
-#192.168.60.9 hostname="test-server"
-192.168.60.11
+192.168.60.12
 
 
 
 # ######################## RabbitMQ #############################
-rabbitmq-master ansible_host=192.168.60.9
-rabbitmq-slave ansible_host=192.168.60.8
+#rabbitmq-master ansible_host=192.168.60.9
+#rabbitmq-slave ansible_host=192.168.60.8
 
 [rabbitmq_master]
-rabbitmq-master
+rabbitmq-master ansible_host=192.168.60.9
 
 [rabbitmq_slave]
-rabbitmq-slave
+rabbitmq-slave ansible_host=192.168.60.8
 #192.168.60.11 hostname="demo6011"
 
 
@@ -169,8 +168,23 @@ mysql_replication_master="{{ hostvars['master001'] }}"
 192.168.60.8
 
 
+# ######################## Consul #############################
+# ####### 单机模式 #######
+[consul_instances]
+consul1 consul_node_role=bootstrap
 
+# ####### 集群模式 #######
+[consul_instances]
+# 集群组建失败
+#consul1 consul_node_role=bootstrap
+#consul2 consul_node_role=server
+#consul3 consul_node_role=server
+#consul4 consul_node_role=client
 
+consul1 consul_node_role=server consul_bootstrap_expect=true
+consul2 consul_node_role=server consul_bootstrap_expect=true
+consul3 consul_node_role=server consul_bootstrap_expect=true
+consul4 consul_node_role=client
 
 
 

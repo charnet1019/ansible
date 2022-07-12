@@ -3,6 +3,9 @@
 - hosts: demo
   gather_facts: yes
 
+  vars:
+    kernel: true
+
   roles:
     - initos
   tags:

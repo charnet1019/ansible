@@ -1,3 +1,9 @@
+# 是否要升级内核到最新版本
+# false: 不升级
+# true: 升级到源中最新的LTS版本,如5.x LTS
+kernel: false
+
+# SSH连接安全加固
 Protocol: 2
 LogLevel: VERBOSE
 UseDNS: 'no'
