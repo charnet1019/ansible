@@ -187,6 +187,11 @@ consul3 consul_node_role=server consul_bootstrap_expect=true
 consul4 consul_node_role=client
 
 
+# ######################## ProxySQL #############################
+[proxysql_instance]
+proxysql_node001 ansible_host=192.168.60.8
+proxysql_node002 ansible_host=192.168.60.9
+
 
 
 

@@ -1,0 +1,217 @@
+---
+
+- hosts: proxysql_instance
+  gather_facts: yes
+
+  vars:
+    proxysql_version: 2.4.2
+    proxysql_service_enabled: True
+    proxysql_use_official_repo: True
+    #proxysql_login_admin_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    proxysql_login_admin_host: 127.0.0.1
+    proxysql_login_admin_password: admin
+    proxysql_login_admin_port: 6032
+    proxysql_login_admin_user: admin
+    proxysql_global_variables:
+      login_host: "{{ proxysql_login_admin_host }}"
+      login_password: "{{ proxysql_login_admin_password }}"
+      login_port: "{{ proxysql_login_admin_port }}"
+      login_user: "{{ proxysql_login_admin_user }}"
+    proxysql_global_variables_kv:
+      admin-admin_credentials: "{{ proxysql_login_admin_user }}:{{ proxysql_login_admin_password }}"
+      admin-mysql_ifaces: "{{ proxysql_login_admin_host }}:{{ proxysql_login_admin_port }}"
+      mysql-commands_stats: "True"
+      mysql-connect_retries_on_failure: 10
+      mysql-connect_timeout_server: 3000
+      mysql-default_charset: utf8mb4
+      mysql-default_query_delay: 0
+      mysql-default_query_timeout: 300000
+      mysql-default_schema: information_schema
+      mysql-interfaces: 0.0.0.0:6033
+      mysql-max_connections: 8192
+      mysql-monitor_read_only_interval: 1500
+      mysql-monitor_read_only_timeout: 500
+      mysql-ping_timeout_server: 500
+      mysql-poll_timeout: 2000
+      mysql-query_retries_on_failure: 1
+      mysql-sessions_sort: "True"
+      mysql-threads: 4
+    proxysql_backend_servers:
+      mysql-srv1-hg1:
+        comment: Write-Group
+        hostgroup: 1
+        #hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+        hostname: 192.168.60.8
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        max_connections: 1000
+        max_replication_lag: 0
+        status: ONLINE
+        weight: 1
+      mysql-srv1-hg2:
+        comment: Read-Group
+        hostgroup: 2
+        #hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+        hostname: 192.168.60.9
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        max_connections: 1000
+        max_replication_lag: 0
+        status: ONLINE
+        weight: 1
+      #mysql-srv2-hg2:
+      #  comment: mysql-srv2-hg2
+      #  hostgroup: 2
+      #  hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+      #  login_host: "{{ proxysql_login_admin_host }}"
+      #  login_password: "{{ proxysql_login_admin_password }}"
+      #  login_port: "{{ proxysql_login_admin_port }}"
+      #  login_user: "{{ proxysql_login_admin_user }}"
+      #  max_connections: 2000
+      #  max_replication_lag: 5
+      #  status: ONLINE
+      #  weight: 1
+      #mysql-srv3-hg2:
+      #  comment: mysql-srv3-hg2
+      #  hostgroup: 2
+      #  hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+      #  login_host: "{{ proxysql_login_admin_host }}"
+      #  login_password: "{{ proxysql_login_admin_password }}"
+      #  login_port: "{{ proxysql_login_admin_port }}"
+      #  login_user: "{{ proxysql_login_admin_user }}"
+      #  max_connections: 2000
+      #  max_replication_lag: 5
+      #  status: OFFLINE_HARD
+      #  weight: 1
+    proxysql_proxysql_servers:
+      proxysql-srv-1:
+        comment: proxysql-srv-1
+        #hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+        hostname: 192.168.60.8
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        port: 6032
+        weight: 0
+      proxysql-srv-2:
+        comment: proxysql-srv-2
+        #hostname: "{{ hostvars[inventory_hostname]['ansible_hostname'] }}"
+        hostname: 192.168.60.9
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        port: 6032
+        weight: 0
+    proxysql_replication_hostgroups:
+      Cluster:
+        comment: Cluster
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        reader_hostgroup: 2
+        writer_hostgroup: 1
+    proxysql_mysql_users:
+      user1:
+        active: 1
+        backend: 1
+        default_hostgroup: 1
+        fast_forward: 0
+        frontend: 1
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        max_connections: 10000
+        password: Passw0rd
+        transaction_persistent: 1
+        username: user1
+      user2:
+        active: 1
+        backend: 1
+        default_hostgroup: 1
+        fast_forward: 0
+        frontend: 1
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        max_connections: 1000
+        password: dr0wssaP
+        transaction_persistent: 1
+        username: user2
+      user3:
+        active: 1              # 表示用户生效 
+        backend: 1
+        default_hostgroup: 1   # 用户默认登录到哪个hostgroup_id下的实例
+        fast_forward: 0        # 忽略查询重写/缓存层,直接把用户的请求透传到后端数据库.相当于只用它的连接池功能,一般不用,路由规则 .* 就行了
+        frontend: 1
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        max_connections: 10000
+        password: Sime32-SRpR-Paccw0rd
+        transaction_persistent: 1  # 为1时连接上ProxySQL的会话后,如果在一个hostgroup上开启了事务,则后续的sql都继续维持在这个hostgroup上,无论是否会匹配上其它路由规则,直到事务结束.默认为0
+        username: testuser     # 此用户需要提前在mysql master上创建,proxysql客户端用来访问后端数据库使用
+    proxysql_query_rules:
+      catchall:
+        active: 1
+        apply: 1
+        destination_hostgroup: 1
+        flagIN: 0
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        match_pattern: .*@.*
+        negate_match_pattern: 0
+        rule_id: 1
+      selectforupdate:
+        active: 1
+        apply: 1
+        destination_hostgroup: 1    # 写请求路由到主机组1
+        flagIN: 0
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        match_pattern: ^SELECT.*FOR UPDATE    # 写请求正则匹配
+        negate_match_pattern: 0
+        rule_id: 2
+      select:
+        active: 1
+        apply: 1
+        destination_hostgroup: 2   # 读请求路由到主机组2 
+        flagIN: 0
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        match_pattern: ^SELECT.*     # 读请求正则匹配
+        negate_match_pattern: 0
+        rule_id: 3
+      show:
+        active: 1
+        apply: 1
+        destination_hostgroup: 2   # 读请求路由到主机组2 
+        flagIN: 0
+        login_host: "{{ proxysql_login_admin_host }}"
+        login_password: "{{ proxysql_login_admin_password }}"
+        login_port: "{{ proxysql_login_admin_port }}"
+        login_user: "{{ proxysql_login_admin_user }}"
+        match_pattern: ^SHOW.*     # 读请求正则匹配
+        negate_match_pattern: 0
+        rule_id: 4
+  roles:
+    - proxysql
+  tags:
+    - proxysql
+
+

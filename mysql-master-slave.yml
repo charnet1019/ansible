@@ -14,19 +14,26 @@
         host: "%"
         password: Sime32-SRpR-Paccw0rd
         priv: "demo.*:ALL"
+      # proxysql监控账号
+      - name: monitor
+        host: "192.168.60.%"
+        #password: SIme*2-SR8R-hahpw0rd
+        password: monitor
+        #priv: "*.*:ALL"
+        priv: "*.*:SELECT"
     mysql_replication_user:
       name: repl
       host: "{{ hostvars['slave001']['ansible_default_ipv4']['address'] }}"
       password: Sime96-ScpR-Pahcw0rd
       priv: "*.*:REPLICATION CLIENT,REPLICATION SLAVE"
-    mysql_port: 33061
+    mysql_port: 3306
     mysql_bind_address: '0.0.0.0'
-    #mysql_daemon: mysqld
-    #mysql_version: 5.7
-    #mysql_exact_version: 5.7.38
-    mysql_daemon: mariadb
-    mysql_version: 10.8
-    mysql_exact_version: 10.8.3
+    mysql_daemon: mysqld
+    mysql_version: 5.7
+    mysql_exact_version: 5.7.38
+    #mysql_daemon: mariadb
+    #mysql_version: 10.8
+    #mysql_exact_version: 10.8.3
     mysql_datadir: "/data/mysql/data"
     mysql_socket: "/data/mysql/data/mysql.sock"
     mysql_max_binlog_size: "1G"
