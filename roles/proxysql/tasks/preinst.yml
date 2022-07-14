@@ -1,0 +1,34 @@
+---
+
+- name: Create ProxySQL config file
+  template:
+    dest: /etc/proxysql.cnf
+    group: "{{ proxysql_cnf_group | default ('root') }}"
+    mode: "{{ proxysql_cnf_permissions | default('0644') }}"
+    owner: "{{ proxysql_cnf_owner | default ('root') }}"
+    src: "{{ proxysql_proxysql_cnf_template }}"
+  tags:
+    - skip_ansible_lint
+  notify:
+    - restart proxysql service
+
+# 当有配置改动时立即重启proxysql服务
+- name: Flush all handlers at this point
+  meta:  flush_handlers
+
+- name: Create ProxySQL admin config file
+  template:
+    dest: /etc/proxysql-admin.cnf
+    group: "{{ proxysql_admin_cnf_group | default ('root') }}"
+    mode: "{{ proxysql_admin_cnf_permissions | default('0644') }}"
+    owner: "{{ proxysql_admin_cnf_owner | default ('root') }}"
+    src: "{{ proxysql_proxysql_admin_cnf_template }}"
+  tags:
+    - skip_ansible_lint
+  when: proxysql_use_percona_repo
+  notify:
+    - restart proxysql service
+
+# 当有配置改动时立即重启proxysql服务
+- name: Flush all handlers at this point
+  meta:  flush_handlers
