@@ -2,6 +2,7 @@
 
 - hosts: rabbitmq_master
   gather_facts: yes
+  become: yes
 
   roles:
     - role: erlang
@@ -25,11 +26,9 @@
             ]
           }
         rabbitmq_env_config:
-          NODENAME: "{{ ansible_nodename }}"
           RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
           RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
           #USE_LONGNAME: "true"
-        rabbitmq_node_name: "{{ ansible_nodename }}"
         rabbitmq_users_to_create:
           - user: admin
             password: admin
@@ -52,6 +51,7 @@
 
 - hosts: rabbitmq_slave
   gather_facts: yes
+  become: yes
 
   roles:
     - role: erlang
@@ -61,9 +61,8 @@
 
     - role: rabbitmq
       vars:
-        # 设置为从节点
-        #rabbitmq_slave_of: rabbitmq-master
-        rabbitmq_slave_of: mysql
+        # 设置为主节点名称或ip用于同步cookie
+        rabbitmq_slave_of: rabbitmq-master
         rabbitmq_series: 3.8
         #rabbitmq_series: 3.9
         rabbitmq_series_rpm_version: 3.8.30
@@ -76,11 +75,9 @@
             ]
           }
         rabbitmq_env_config:
-          NODENAME: "{{ ansible_nodename }}"
           RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
           RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
           #USE_LONGNAME: "true"
-        rabbitmq_node_name: "{{ ansible_nodename }}"
         rabbitmq_users_to_create:
           - user: admin
             password: admin

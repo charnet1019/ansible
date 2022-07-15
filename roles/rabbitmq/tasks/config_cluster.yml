@@ -1,0 +1,74 @@
+---
+# Add the slave node to master cluster
+
+- name: Stop rabbitmq app
+  shell: rabbitmqctl stop_app
+  when:
+    - rabbitmq_slave_of is not none
+    - rabbitmq_slave_of | trim | length > 0
+
+- name: "[RabbitMQ] Define master cluster node"
+  delegate_to: localhost
+  set_fact:
+    __rabbitmq_cluster_nodes: |
+      {{
+        ( __rabbitmq_cluster_nodes
+          | default([],True)
+        )
+        + [
+            node if '@' in node else ([ node, hostvars[item]['ansible_hostname'] ] | join('@'))
+        ]
+      }}
+  loop:
+    "{{
+      (
+        (
+          groups['all']
+            | map('extract',hostvars)
+            | selectattr('rabbitmq_slave_of','defined')
+            | selectattr('rabbitmq_slave_of','equalto',(rabbitmq_slave_of | d(inventory_hostname, true)))
+            | map(attribute='inventory_hostname')
+            | list
+        )
+        +
+        [ rabbitmq_slave_of | ternary(rabbitmq_slave_of,inventory_hostname) ]
+      ) | unique
+    }}"
+  loop_control:
+    index_var: id
+  vars:
+    node: "{{ hostvars[item]['rabbitmq_node_name'] | d('rabbit',True) }}"
+  when:
+    - rabbitmq_is_master
+ 
+- name: ++++++++++++++++++++ debug __rabbitmq_cluster_nodes
+  debug:
+    var: __rabbitmq_cluster_nodes
+
+- name: Add the slave node to cluster
+  shell: rabbitmqctl join_cluster {{ __rabbitmq_cluster_nodes[0] }}
+  when:
+    - rabbitmq_slave_of is not none
+    - rabbitmq_slave_of | trim | length > 0
+  register: join_cluster_output
+
+- name: Skip fail if the node is already a member of the cluster
+  fail: msg="join_cluster failed but node is not already a member"
+  when:
+    - rabbitmq_slave_of is not none
+    - rabbitmq_slave_of | trim | length > 0
+    - ("'already_member' not in join_cluster_output.stderr") and
+        (join_cluster_output.rc != 0)
+
+- name: Start rabbitmq app
+  shell: rabbitmqctl start_app
+  when:
+    - rabbitmq_slave_of is not none
+    - rabbitmq_slave_of | trim | length > 0
+
+
+
+
+
+
+

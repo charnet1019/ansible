@@ -29,13 +29,15 @@
 
 - name: 创建目录
   file:
-    path: "{{ item }}"
+    path: "{{ dir_item }}"
     state: directory
     owner: "{{ rabbitmq_users_groups[0].name }}"
     group: "{{ rabbitmq_users_groups[0].name }}"
   loop:
     - "{{ RABBITMQ_MNESIA_BASE }}"
     - "{{ RABBITMQ_LOG_BASE }}"
+  loop_control:
+    loop_var: dir_item 
   when:
     - RABBITMQ_MNESIA_BASE is defined or RABBITMQ_LOG_BASE is defined
 

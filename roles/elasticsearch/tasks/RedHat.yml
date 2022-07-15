@@ -18,7 +18,7 @@
 
 - name: 创建目录
   file:
-    path: "{{ item }}"
+    path: "{{ dir_item }}"
     state: directory
     owner: "{{ elasticsearch_users_groups }}"
     group: "{{ elasticsearch_users_groups }}"
@@ -27,6 +27,8 @@
     - "{{ elasticsearch_path_logs }}"
     - "{{ elasticsearch_path_repo }}"
     - "{{ elasticsearch_path_dump }}"
+  loop_control:
+    loop_var: dir_item
   when:
     - elasticsearch_path_data is defined or elasticsearch_path_logs is defined or elasticsearch_path_repo is defined or elasticsearch_path_dump
 

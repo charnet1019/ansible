@@ -60,3 +60,9 @@
 - import_tasks: config_parameters.yml
 
 - import_tasks: config_policies.yml
+
+- import_tasks: config_cluster.yml
+
+
+
+
