@@ -3,7 +3,19 @@
 # true: 升级到源中最新的LTS版本,如5.x LTS
 kernel: false
 
+# 设置主机名
+hostname:
+
+timezone: Asia/ShangHai
+swap_switch: true  # 默认关闭swap
+
+# systemctl最小文件和进程打开数量
+system_default_limit_core: 100000
+system_default_limit_nofile: 100000
+
 # SSH连接安全加固
+ssh_hardening: true   # 默认开启安全加固
+Port: 22
 Protocol: 2
 LogLevel: VERBOSE
 UseDNS: 'no'
@@ -31,4 +43,8 @@ KexAlgorithms: 'curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-gr
 HostbasedAcceptedKeytypes: 'ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512'
 GSSAPIKexAlgorithms: 'gss-group14-sha256-,gss-group16-sha512-,gss-curve25519-sha256-'
 CASignatureAlgorithms: 'ssh-ed25519,sk-ssh-ed25519@openssh.com,rsa-sha2-512,rsa-sha2-256'
+
+
+
+
 

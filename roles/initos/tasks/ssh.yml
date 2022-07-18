@@ -1,282 +1,257 @@
 ---
 
-- name: 关闭ssh反向解析
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "UseDNS {{ UseDNS }}"
-    backrefs: yes
-  with_items:
-    - '(^#UseDNS)'
-    - '(^UseDNS)'
-  when:
-    - ssh.hardening
-
-- name: 修改ssh监听端口
+- name: "[InitOS] 修改ssh监听端口"
   lineinfile:
     path: /etc/ssh/sshd_config
     #regexp: "^#Port"
     regexp: "{{ item }}"
-    line: "Port {{ ssh.Port }}"
+    line: "Port {{ Port }}"
     backrefs: yes
   with_items:
     - '(^#Port)'
     - '(^Port)'
   when:
-    - ssh.hardening or not ssh.hardening
+    - ssh_hardening or not ssh_hardening
 
+- block:
+    - name: "[InitOS] 关闭ssh反向解析"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "UseDNS {{ UseDNS }}"
+        backrefs: yes
+      with_items:
+        - '(^#UseDNS)'
+        - '(^UseDNS)'
+    
+    - name: "[InitOS] 设置ssh密码验证"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "PasswordAuthentication {{ PasswordAuthentication }}"
+        backrefs: yes
+      with_items:
+        - '(^#PasswordAuthentication)'
+        - '(^PasswordAuthentication)'
+    
+    - name: "[InitOS] 修改ssh日志级别"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "LogLevel {{ LogLevel }}"
+        backrefs: yes
+      with_items:
+        - '(^#LogLevel)'
+        - '(^LogLevel)'
+    
+    - name: "[InitOS] 修改ssh连接尝试次数"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "MaxAuthTries {{ MaxAuthTries }}"
+        backrefs: yes
+      with_items:
+        - '(^#MaxAuthTries)'
+        - '(^MaxAuthTries)'
+    
+    - name: "[InitOS] 修改ssh连接空闲断开时间"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "ClientAliveInterval {{ ClientAliveInterval }}"
+        backrefs: yes
+      with_items:
+        - '(^#ClientAliveInterval)'
+        - '(^ClientAliveInterval)'
+    
+    - name: "[InitOS] 修改ssh允许超时的次数"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "ClientAliveCountMax {{ ClientAliveCountMax }}"
+        backrefs: yes
+      with_items:
+        - '(^#ClientAliveCountMax)'
+        - '(^ClientAliveCountMax)'
+    
+    - name: "[InitOS] 修改ssh IgnoreRhosts"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "IgnoreRhosts {{ IgnoreRhosts }}"
+        backrefs: yes
+      with_items:
+        - '(^#IgnoreRhosts)'
+        - '(^IgnoreRhosts)'
+    
+    - name: "[InitOS] 修改ssh HostbasedAuthentication"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "HostbasedAuthentication {{ HostbasedAuthentication }}"
+        backrefs: yes
+      with_items:
+        - '(^#HostbasedAuthentication)'
+        - '(^HostbasedAuthentication)'
+    
+    - name: "[InitOS] 设置ssh不允许空密码"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "PermitEmptyPasswords {{ PermitEmptyPasswords }}"
+        backrefs: yes
+      with_items:
+        - '(^#PermitEmptyPasswords)'
+        - '(^PermitEmptyPasswords)'
+    
+    - name: "[InitOS] 设置是否允许sshd处理用户下的环境变量"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "PermitUserEnvironment {{ PermitUserEnvironment }}"
+        backrefs: yes
+      with_items:
+        - '(^#PermitUserEnvironment)'
+        - '(^PermitUserEnvironment)'
+    
+    - name: "[InitOS] 设置ssh证书验证"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "PubkeyAuthentication {{ PubkeyAuthentication }}"
+        backrefs: yes
+      with_items:
+        - '(^#PubkeyAuthentication)'
+        - '(^PubkeyAuthentication)'
+    
+    - name: "[InitOS] 设置ssh不允许转发TCP"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "AllowTcpForwarding {{ AllowTcpForwarding }}"
+        backrefs: yes
+      with_items:
+        - '(^#AllowTcpForwarding)'
+        - '(^AllowTcpForwarding)'
+    
+    - name: "[InitOS] 设置ssh不允许代理转发"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "AllowAgentForwarding {{ AllowAgentForwarding }}"
+        backrefs: yes
+      with_items:
+        - '(^#AllowAgentForwarding)'
+        - '(^AllowAgentForwarding)'
+    
+    - name: "[InitOS] 设置ssh连接权限检查"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "StrictModes {{ StrictModes }}"
+        backrefs: yes
+      with_items:
+        - '(^#StrictModes)'
+        - '(^StrictModes)'
+    
+    - name: "[InitOS] 设置ssh是否允许远程主机连接本地的转发端口"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "GatewayPorts {{ GatewayPorts }}"
+        backrefs: yes
+      with_items:
+        - '(^#GatewayPorts)'
+        - '(^GatewayPorts)'
+    
+    - name: "[InitOS] 设置ssh是否允许tun设备转发"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "PermitTunnel {{ PermitTunnel }}"
+        backrefs: yes
+      with_items:
+        - '(^#PermitTunnel)'
+        - '(^PermitTunnel)'
+    
+    - name: "[InitOS] 设置ssh连接提示信息"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "Banner {{ Banner }}"
+        backrefs: yes
+      with_items:
+        - '(^#Banner)'
+        - '(^Banner)'
+    
+    - name: "[InitOS] 设置ssh禁止X11转发"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: "X11Forwarding {{ X11Forwarding }}"
+        backrefs: yes
+      with_items:
+        - '(^#X11Forwarding)'
+        - '(^X11Forwarding)'
+    
+    
+    # 已废弃配置
+    #- name: "[InitOS] 设置ssh证书验证2"
+    #  lineinfile:
+    #    path: /etc/ssh/sshd_config
+    #    insertafter: EOF
+    #    line: "RSAAuthentication {{ RSAAuthentication }}"
+    #
+    #- name: "[InitOS] 设置ssh RhostsRSAAuthentication"
+    #  lineinfile:
+    #    path: /etc/ssh/sshd_config
+    #    insertafter: EOF
+    #    line: "RhostsRSAAuthentication {{ RhostsRSAAuthentication }}"
+    
+    - name: "[InitOS] 设置ssh协议版本"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        line: "Protocol {{ Protocol }}"
+    
+    - name: "[InitOS] 设置ssh加密算法"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        line: "Ciphers {{ Ciphers }}"
+    
+    
+    - name: "[InitOS] 设置ssh-2数据校验算法"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        line: "MACs {{ MACs }}"
+    
+    - name: "[InitOS] 设置ssh KexAlgorithms"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        line: "KexAlgorithms {{ KexAlgorithms }}"
+    
+    - name: "[InitOS] 设置ssh HostbasedAcceptedKeytypes"
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        insertafter: EOF
+        line: "HostbasedAcceptedKeytypes {{ HostbasedAcceptedKeytypes }}"
+    
+    #- name: "[InitOS] 设置ssh GSSAPIKexAlgorithms"
+    #  lineinfile:
+    #    path: /etc/ssh/sshd_config
+    #    insertafter: EOF
+    #    line: "GSSAPIKexAlgorithms {{ GSSAPIKexAlgorithms }}"
+    #
+    #- name: "[InitOS] 设置ssh CASignatureAlgorithms"
+    #  lineinfile:
+    #    path: /etc/ssh/sshd_config
+    #    insertafter: EOF
+    #    line: "CASignatureAlgorithms {{ CASignatureAlgorithms }}"
 
-- name: 设置ssh密码验证
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "PasswordAuthentication {{ ssh.PasswordAuthentication }}"
-    backrefs: yes
-  with_items:
-    - '(^#PasswordAuthentication)'
-    - '(^PasswordAuthentication)'
-  when: ssh.hardening
-
-- name: 修改ssh日志级别
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "LogLevel {{ LogLevel }}"
-    backrefs: yes
-  with_items:
-    - '(^#LogLevel)'
-    - '(^LogLevel)'
-  when: ssh.hardening
-
-- name: 修改ssh连接尝试次数
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "MaxAuthTries {{ ssh.MaxAuthTries }}"
-    backrefs: yes
-  with_items:
-    - '(^#MaxAuthTries)'
-    - '(^MaxAuthTries)'
-  when: ssh.hardening
-
-- name: 修改ssh连接空闲断开时间
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "ClientAliveInterval {{ ssh.ClientAliveInterval }}"
-    backrefs: yes
-  with_items:
-    - '(^#ClientAliveInterval)'
-    - '(^ClientAliveInterval)'
-  when: ssh.hardening
-
-- name: 修改ssh允许超时的次数
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "ClientAliveCountMax {{ ClientAliveCountMax }}"
-    backrefs: yes
-  with_items:
-    - '(^#ClientAliveCountMax)'
-    - '(^ClientAliveCountMax)'
-  when: ssh.hardening
-
-- name: 修改ssh IgnoreRhosts
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "IgnoreRhosts {{ IgnoreRhosts }}"
-    backrefs: yes
-  with_items:
-    - '(^#IgnoreRhosts)'
-    - '(^IgnoreRhosts)'
-  when: ssh.hardening
-
-- name: 修改ssh HostbasedAuthentication
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "HostbasedAuthentication {{ HostbasedAuthentication }}"
-    backrefs: yes
-  with_items:
-    - '(^#HostbasedAuthentication)'
-    - '(^HostbasedAuthentication)'
-  when: ssh.hardening
-
-- name: 设置ssh不允许空密码
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "PermitEmptyPasswords {{ PermitEmptyPasswords }}"
-    backrefs: yes
-  with_items:
-    - '(^#PermitEmptyPasswords)'
-    - '(^PermitEmptyPasswords)'
-  when: ssh.hardening
-
-- name: 设置是否允许sshd处理用户下的环境变量
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "PermitUserEnvironment {{ PermitUserEnvironment }}"
-    backrefs: yes
-  with_items:
-    - '(^#PermitUserEnvironment)'
-    - '(^PermitUserEnvironment)'
-  when: ssh.hardening
-
-- name: 设置ssh证书验证
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "PubkeyAuthentication {{ ssh.PubkeyAuthentication }}"
-    backrefs: yes
-  with_items:
-    - '(^#PubkeyAuthentication)'
-    - '(^PubkeyAuthentication)'
-  when: ssh.hardening
-
-- name: 设置ssh不允许转发TCP
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "AllowTcpForwarding {{ AllowTcpForwarding }}"
-    backrefs: yes
-  with_items:
-    - '(^#AllowTcpForwarding)'
-    - '(^AllowTcpForwarding)'
-  when: ssh.hardening
-
-- name: 设置ssh不允许代理转发
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "AllowAgentForwarding {{ AllowAgentForwarding }}"
-    backrefs: yes
-  with_items:
-    - '(^#AllowAgentForwarding)'
-    - '(^AllowAgentForwarding)'
-  when: ssh.hardening
-
-- name: 设置ssh连接权限检查
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "StrictModes {{ StrictModes }}"
-    backrefs: yes
-  with_items:
-    - '(^#StrictModes)'
-    - '(^StrictModes)'
-  when: ssh.hardening
-
-- name: 设置ssh是否允许远程主机连接本地的转发端口
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "GatewayPorts {{ GatewayPorts }}"
-    backrefs: yes
-  with_items:
-    - '(^#GatewayPorts)'
-    - '(^GatewayPorts)'
-  when: ssh.hardening
-
-- name: 设置ssh是否允许tun设备转发
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "PermitTunnel {{ PermitTunnel }}"
-    backrefs: yes
-  with_items:
-    - '(^#PermitTunnel)'
-    - '(^PermitTunnel)'
-  when: ssh.hardening
-
-- name: 设置ssh连接提示信息
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "Banner {{ Banner }}"
-    backrefs: yes
-  with_items:
-    - '(^#Banner)'
-    - '(^Banner)'
-  when: ssh.hardening
-
-- name: 设置ssh禁止X11转发
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
-    line: "X11Forwarding {{ X11Forwarding }}"
-    backrefs: yes
-  with_items:
-    - '(^#X11Forwarding)'
-    - '(^X11Forwarding)'
-  when: ssh.hardening
-
-
-# 已废弃配置
-#- name: 设置ssh证书验证2
-#  lineinfile:
-#    path: /etc/ssh/sshd_config
-#    insertafter: EOF
-#    line: "RSAAuthentication {{ ssh.RSAAuthentication }}"
-#
-#- name: 设置ssh RhostsRSAAuthentication
-#  lineinfile:
-#    path: /etc/ssh/sshd_config
-#    insertafter: EOF
-#    line: "RhostsRSAAuthentication {{ ssh.RhostsRSAAuthentication }}"
-
-- name: 设置ssh协议版本
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    insertafter: EOF
-    line: "Protocol {{ Protocol }}"
-  when: ssh.hardening
-
-- name: 设置ssh加密算法
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    insertafter: EOF
-    line: "Ciphers {{ Ciphers }}"
-  when: ssh.hardening
-
-
-- name: 设置ssh-2数据校验算法
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    insertafter: EOF
-    line: "MACs {{ MACs }}"
-  when: ssh.hardening
-
-
-
-- name: 设置ssh KexAlgorithms
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    insertafter: EOF
-    line: "KexAlgorithms {{ KexAlgorithms }}"
-  when: ssh.hardening
-
-- name: 设置ssh HostbasedAcceptedKeytypes
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    insertafter: EOF
-    line: "HostbasedAcceptedKeytypes {{ HostbasedAcceptedKeytypes }}"
-  when: ssh.hardening
-
-#- name: 设置ssh GSSAPIKexAlgorithms
-#  lineinfile:
-#    path: /etc/ssh/sshd_config
-#    insertafter: EOF
-#    line: "GSSAPIKexAlgorithms {{ ssh.GSSAPIKexAlgorithms }}"
-#
-#- name: 设置ssh CASignatureAlgorithms
-#  lineinfile:
-#    path: /etc/ssh/sshd_config
-#    insertafter: EOF
-#    line: "CASignatureAlgorithms {{ ssh.CASignatureAlgorithms }}"
-
+  when: ssh_hardening
 
 
 

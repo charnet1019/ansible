@@ -4,7 +4,9 @@
   gather_facts: yes
 
   vars:
-    kernel: true
+    kernel: false
+    hostname: demo-60-12
+    ssh_hardening: false
 
   roles:
     - initos

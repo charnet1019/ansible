@@ -1,0 +1,17 @@
+---
+- name: "[InitOS] generate chrony config file"
+  template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+  when: ntp_type == "chrony"
+  notify:
+    - restart chrony
+
+- name: "[InitOS] generate ntp config file"
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  when: ntp_type != "chrony"
+  notify:
+    - restart ntp
+

@@ -1,0 +1,15 @@
+---
+- name: restart chrony
+  systemd:
+    state: restarted
+    daemon_reload: true
+    enabled: yes
+    name: chronyd
+
+- name: restart ntp
+  systemd:
+    state: restarted
+    daemon_reload: true
+    enabled: yes
+    name: ntpd
+

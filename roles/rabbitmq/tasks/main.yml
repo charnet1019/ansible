@@ -61,7 +61,7 @@
 
 - import_tasks: config_policies.yml
 
-- import_tasks: config_cluster.yml
+#- import_tasks: config_cluster.yml
 
 
 

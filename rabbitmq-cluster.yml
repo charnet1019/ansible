@@ -20,11 +20,18 @@
         #rabbitmq_series_rpm_version: 3.9.10
         #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
-        rabbitmq_erlang_config: |
-          {rabbit, [
-             {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
-            ]
-          }
+        #rabbitmq_erlang_config: |
+        #  {rabbit, [
+        #     {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
+        #    ]
+        #  }
+        rabbitmq_sysctl_config:
+          listeners:
+            tcp:
+              default: 5672
+          tcp_listen_options:
+            linger:
+              'on': "true"
         rabbitmq_env_config:
           RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
           RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
@@ -69,11 +76,18 @@
         #rabbitmq_series_rpm_version: 3.9.10
         #rabbitmq_series_rpm_version: 3.9.16
         #AMQP端口
-        rabbitmq_erlang_config: |
-          {rabbit, [
-             {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
-            ]
-          }
+        #rabbitmq_erlang_config: |
+        #  {rabbit, [
+        #     {tcp_listeners, [{"{{ ansible_default_ipv4['address'] }}", 28861}]}
+        #    ]
+        #  }
+        rabbitmq_sysctl_config:
+          listeners:
+            tcp:
+              default: 5672
+          tcp_listen_options:
+            linger:
+              'on': "true"
         rabbitmq_env_config:
           RABBITMQ_MNESIA_BASE: "/data/rabbitmq/data"    # 定义MQ数据目录
           RABBITMQ_LOG_BASE: "/data/rabbitmq/logs"       # 定义MQ日志目录
