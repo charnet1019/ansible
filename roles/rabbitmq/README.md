@@ -5,8 +5,10 @@ https://github.com/rockandska/ansible-role-erlang
 RabbitMQ和Erlang版本要求:
 https://www.rabbitmq.com/which-erlang.html
 
+集群形成和对待发现
+https://www.rabbitmq.com/cluster-formation.html
 
-
+## 必须先设置主机名解析
 
 
 
