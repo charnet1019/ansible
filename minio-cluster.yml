@@ -1,0 +1,24 @@
+---
+
+- hosts: minio_instances
+  gather_facts: yes
+
+  roles:
+    - role: minio
+      vars:
+        minio_root_username: 'admin'
+        minio_root_password: 'vQw3QVEWRRDx9e7T'
+        minio_server_release: 'RELEASE.2022-07-17T15-43-14Z'
+        minio_client_release: 'RELEASE.2022-07-15T09-20-55Z'
+        # 数据存储目录必须要单独挂载一个磁盘或有单独分区,否则启动失败
+        minio_server_datadirs:
+          - '/data/minio/data'
+        minio_server_args:
+          - "http://192.168.60.8{{ minio_server_datadirs[0] }}"
+          - "http://192.168.60.9{{ minio_server_datadirs[0] }}"
+          - "http://192.168.60.11{{ minio_server_datadirs[0] }}"
+          - "http://192.168.60.12{{ minio_server_datadirs[0] }}"
+  tags:
+    - minio
+
+

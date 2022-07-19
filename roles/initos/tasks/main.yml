@@ -5,6 +5,7 @@
 
 - include_tasks: config_{{ ansible_os_family }}.yml
   when: ansible_os_family == "RedHat"
+#- import_tasks: config_RedHat.yml
 
 - include_tasks: chrony.yml
 

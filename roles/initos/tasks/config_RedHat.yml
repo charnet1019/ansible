@@ -119,12 +119,12 @@
           - kernel-lt-devel
         disablerepo: "*"
         enablerepo: "elrepo-kernel"
-      tags:
-        - kernel
     
     - name: "[InitOS] 修改默认启动内核到新内核"
       shell: grub2-set-default  0 && grub2-mkconfig -o /etc/grub2.cfg
   when: kernel
+  tags:
+    - kernel
 
 - name: "[InitOS] 设置内核参数适应docker"
   shell: |
@@ -140,5 +140,6 @@
     name: '*'
     update_cache: yes
     state: latest
-
+  tags:
+    - update_os
 

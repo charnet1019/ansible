@@ -1,6 +1,6 @@
 # 主机清单
 [demo]
-192.168.60.12
+192.168.60.8
 
 
 
@@ -198,7 +198,12 @@ proxysql_node002 ansible_host=192.168.60.9
 [minio_instance]
 192.168.60.12
 
-
+# ####### 集群模式 #######
+[minio_instances]
+server1 ansible_host=192.168.60.8
+server2 ansible_host=192.168.60.9
+server3 ansible_host=192.168.60.11
+server4 ansible_host=192.168.60.12
 
 
 

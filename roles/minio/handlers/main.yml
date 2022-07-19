@@ -7,9 +7,10 @@
     daemon_reload: True
 
 - name: restart minio
-  service:
+  systemd:
     name: minio
     state: restarted
+    daemon_reload: true
   notify: Check MinIO WebUI
   become: true
 
