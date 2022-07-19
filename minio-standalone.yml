@@ -1,0 +1,14 @@
+---
+
+- hosts: minio_instance
+  gather_facts: yes
+
+  roles:
+    - role: minio
+      vars:
+        minio_server_datadirs:
+          - '/data/minio/data'
+  tags:
+    - minio
+
+

@@ -1,0 +1,12 @@
+---
+# vars file for ansible-minio
+minio_connection_type: "{{ minio_enable_ssl | ternary('https', 'http') }}"
+
+go_arch_map:
+  i386: '386'
+  x86_64: 'amd64'
+  aarch64: 'arm64'
+  armv7l: 'arm'
+  armv6l: 'arm6vl'
+
+go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"

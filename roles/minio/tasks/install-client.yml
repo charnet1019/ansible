@@ -1,0 +1,28 @@
+---
+
+- name: Compose the MinIO client download base url
+  set_fact:
+    _minio_client_download_base_url: "https://dl.minio.io/client/mc/release/linux-{{ go_arch }}"
+
+- name: Compose the MinIO client download url with lastest release
+  set_fact:
+    _minio_client_download_url: "{{ _minio_client_download_base_url }}/mc"
+  when: minio_client_release | length == 0
+
+- name: "Compose the MinIO client download url with release {{ minio_client_release }}"
+  set_fact:
+    _minio_client_download_url: "{{ _minio_client_download_base_url }}/archive/mc.{{ minio_client_release }}"
+  when: minio_client_release | length > 0
+
+- name: Download the MinIO client
+  get_url:
+    url: "{{ _minio_client_download_url }}"
+    dest: "{{ minio_client_bin }}"
+    owner: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+    mode: 0755
+    checksum: "sha256:{{ _minio_client_download_url }}.sha256sum"
+  register: _download_client
+  until: _download_client is succeeded
+  retries: 5
+  delay: 2

@@ -4,7 +4,7 @@
   gather_facts: yes
 
   vars:
-    kernel: false
+    kernel: true
     hostname: demo-60-12
     ssh_hardening: false
 

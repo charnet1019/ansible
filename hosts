@@ -193,6 +193,10 @@ proxysql_node001 ansible_host=192.168.60.8
 proxysql_node002 ansible_host=192.168.60.9
 
 
+# ######################## MinIO #############################
+# ####### 单机模式 #######
+[minio_instance]
+192.168.60.12
 
 
 
