@@ -6,6 +6,10 @@
   roles:
     - role: minio
       vars:
+        minio_root_username: 'admin'
+        minio_root_password: 'vQw3QVEWRRDx9e7T'
+        minio_server_release: 'RELEASE.2022-07-17T15-43-14Z'
+        minio_client_release: 'RELEASE.2022-07-15T09-20-55Z'
         minio_server_datadirs:
           - '/data/minio/data'
   tags:

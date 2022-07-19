@@ -10,3 +10,8 @@ go_arch_map:
   armv6l: 'arm6vl'
 
 go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+minio_hostname: "{{ ansible_default_ipv4['address'] }}"
+
+
+
