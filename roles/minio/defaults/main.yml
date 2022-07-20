@@ -8,8 +8,11 @@ minio_client_bin: /usr/local/bin/mc
 # 需要在文件服务器根(/data/statics)下创建如下路径:
 # client/mc/release/linux-amd64/archive
 # server/minio/release/linux-amd64/archive
-minio_server_download_url: http://192.168.60.10:58848/server/minio/release
-minio_client_download_url: http://192.168.60.10:58848/client/mc/release
+minio_server_download_url: https://dl.minio.io/server/minio/release
+minio_client_download_url: https://dl.minio.io/client/mc/release
+
+#minio_server_download_url: http://192.168.60.10:58848/server/minio/release
+#minio_client_download_url: http://192.168.60.10:58848/client/mc/release
 
 # MinIO release to install.
 minio_server_release: "RELEASE.2022-06-07T00-33-41Z"
