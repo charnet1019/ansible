@@ -34,21 +34,21 @@ rabbitmq-slave02 ansible_host=192.168.60.11
 
 # ######################## zookeeper #############################
 # zookeeper单机模式
-#zoo1 ansible_host=192.168.60.8
-#
-#[zookeeper_nodes]
-#zoo1 zookeeper_id=1
-
-
-# zookeeper集群模式
 zoo1 ansible_host=192.168.60.8
-zoo2 ansible_host=192.168.60.9
-zoo3 ansible_host=192.168.60.11
 
 [zookeeper_nodes]
 zoo1 zookeeper_id=1
-zoo2 zookeeper_id=2
-zoo3 zookeeper_id=3
+
+
+# zookeeper集群模式
+#zoo1 ansible_host=192.168.60.8
+#zoo2 ansible_host=192.168.60.9
+#zoo3 ansible_host=192.168.60.11
+#
+#[zookeeper_nodes]
+#zoo1 zookeeper_id=1
+#zoo2 zookeeper_id=2
+#zoo3 zookeeper_id=3
 
 # ######################## kafka #############################
 # Kafka单机
@@ -188,14 +188,14 @@ consul4 consul_node_role=client
 
 
 # ######################## ProxySQL #############################
-[proxysql_instance]
+[proxysql_instances]
 proxysql_node001 ansible_host=192.168.60.8
 proxysql_node002 ansible_host=192.168.60.9
 
 
 # ######################## MinIO #############################
 # ####### 单机模式 #######
-[minio_instance]
+[minio_instances]
 192.168.60.12
 
 # ####### 集群模式 #######
@@ -206,6 +206,10 @@ server3 ansible_host=192.168.60.11
 server4 ansible_host=192.168.60.12
 
 
+# ######################## ClickHouse #############################
+# ####### 单机模式 #######
+[clickhouse_instances]
+server1 ansible_host=192.168.60.8
 
 
 

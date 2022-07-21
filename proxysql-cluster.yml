@@ -1,6 +1,6 @@
 ---
 
-- hosts: proxysql_instance
+- hosts: proxysql_instances
   gather_facts: yes
 
   vars:

@@ -1,13 +1,14 @@
 ---
 
-- hosts: zookeeper-nodes
+- hosts: zookeeper_nodes
   gather_facts: yes
 
   vars:
     - zookeeper_version: 3.7.1
     - zookeeper_data_dir: /data/zookeeper/data
     - zookeeper_data_log_dir: /data/zookeeper/logs
-    - zookeeper_environment: "JVMFLAGS":"-Xms512m -Xmx1024m $JVMFLAGS"
+    - zookeeper_environment:
+        JVMFLAGS: "-Xms512m -Xmx1024m"
 
   roles:
     - role: openjdk

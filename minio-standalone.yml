@@ -1,6 +1,6 @@
 ---
 
-- hosts: minio_instance
+- hosts: minio_instances
   gather_facts: yes
 
   roles:
