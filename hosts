@@ -3,7 +3,6 @@
 192.168.60.8
 
 
-
 # ######################## RabbitMQ #############################
 #rabbitmq-master ansible_host=192.168.60.9
 #rabbitmq-slave ansible_host=192.168.60.8
@@ -22,7 +21,7 @@ rabbitmq-slave02 ansible_host=192.168.60.11
 # 需要先安装redis_master和redis_slave后再安装redis_sentinel
 #[redis_master]
 #192.168.60.9
-#
+
 #[redis_slave]
 #192.168.60.10 ansible_ssh_user="root" ansible_ssh_pass="Pa$$word"
 
@@ -44,7 +43,7 @@ zoo1 zookeeper_id=1
 #zoo1 ansible_host=192.168.60.8
 #zoo2 ansible_host=192.168.60.9
 #zoo3 ansible_host=192.168.60.11
-#
+
 #[zookeeper_nodes]
 #zoo1 zookeeper_id=1
 #zoo2 zookeeper_id=2
